@@ -5,8 +5,8 @@
  * exist inside the `Helpers` folder.
  */
 
-require_once 'vendor/autoload.php';
+#require_once 'vendor/autoload.php';
 
-foreach (glob('src/Resource/Helpers/*.php') as $helpers) {
+/* foreach (glob('src/Resource/Helpers/*.php') as $helpers) {
     require_once $helpers;
-}
+} */

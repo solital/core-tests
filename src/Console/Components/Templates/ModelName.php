@@ -6,6 +6,9 @@ use Solital\Components\Model\Model;
 
 class NameDefault extends Model
 {
+    /**
+     * Construct
+     */
     public function __construct()
     {
         $this->table = "";

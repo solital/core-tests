@@ -1,3 +1,7 @@
+<?php
+
+use Solital\Core\Course\Course;
+
 /** Forgot Routers */
 Course::get('/forgot', 'Auth\ForgotController@forgot')->name('forgot');
 Course::post('/forgotPost', 'Auth\ForgotController@forgotPost')->name('forgotPost');

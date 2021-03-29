@@ -13,11 +13,10 @@ class DatabaseCommand
     public function checkConnection(): DatabaseCommand
     {
         if (
-            empty($_ENV['DB_DRIVE']) ||
-            empty($_ENV['DB_HOST']) ||
-            empty($_ENV['DB_NAME']) ||
-            empty($_ENV['DB_USER']) ||
-            empty($_ENV['DB_PASS'])
+            $_ENV['DB_DRIVE'] == "" ||
+            $_ENV['DB_HOST'] == "" ||
+            $_ENV['DB_NAME'] == "" ||
+            $_ENV['DB_USER'] == ""
         ) {
             $msg = (new Colors())->stringColor("Error: Database not connected!", "yellow", "red", true);
             print_r($msg);
@@ -27,18 +26,18 @@ class DatabaseCommand
 
         return $this;
     }
-    
+
     /**
      * @return DatabaseCommand
      */
     public function dump(): DatabaseCommand
     {
-        $dir = dirname(__DIR__) . "app" . DIRECTORY_SEPARATOR . "Dump" . DIRECTORY_SEPARATOR;
+        $dir = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "dump" . DIRECTORY_SEPARATOR;
 
         $res = (new Dump())->dumpDatabase($dir);
 
-        if ($res == true) {
-            $msg = $this->color->stringColor("Dump done successfully!", "green", null, true);
+        /* if ($res == true) {
+            $msg = (new Colors())->stringColor("Dump done successfully!", "green", null, true);
             print_r($msg);
 
             die;
@@ -47,7 +46,7 @@ class DatabaseCommand
             print_r($msg);
 
             die;
-        }
+        } */
 
         return $this;
     }

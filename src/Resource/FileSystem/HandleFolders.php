@@ -4,9 +4,8 @@ namespace Solital\Core\Resource\FileSystem;
 
 use FilesystemIterator;
 use RecursiveIteratorIterator;
-use Solital\Core\Exceptions\NotFoundException;
 
-class HandleFolders
+abstract class HandleFolders
 {
     /**
      * @var string
@@ -51,19 +50,11 @@ class HandleFolders
      */
     public function remove(string $dir, bool $safe = true): bool
     {
-        $dir = dir($dir);
+        $this->files = (new HandleFiles())->folder($dir)->files();
 
-        while (($files = $dir->read()) !== false) {
-            if (($files != '.') && ($files != '..')) {
-                $this->files[] = $this->folder . $files;
-            }
-        }
-
-        $dir->close();
-
-        if (is_dir($dir->path)) {
+        if (is_dir($dir)) {
             if ($safe == false) {
-                $this->removeFiles($dir->path);
+                $this->removeFiles($dir);
                 return true;
             }
 
@@ -71,7 +62,11 @@ class HandleFolders
                 return false;
             }
 
-            \rmdir($dir->path);
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                exec(sprintf("rd /s /q %s", escapeshellarg($dir)));
+            } else {
+                rmdir($dir);
+            }
 
             return true;
         } else {

@@ -7,12 +7,12 @@ use Solital\Core\Console\Command\DatabaseCommand;
 use Solital\Core\Database\ORM;
 use Solital\Database\Create\SQL;
 
-class Create extends SQL
+class Create
 {
     /**
      * @var instance
      */
-    private $orm;
+    protected $orm;
 
     /**
      * @var string

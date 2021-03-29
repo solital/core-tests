@@ -2,6 +2,8 @@
 
 namespace Solital\Core\Resource\Mail;
 
+use Solital\Core\Resource\Validation\Valid;
+
 class NativeMail extends PHPMailerClass
 {
     /**
@@ -41,12 +43,12 @@ class NativeMail extends PHPMailerClass
      */
     public static function send(string $sender, string $recipient, string $subject, string $message, string $reply_to = null, string $type = "text/plan", string $charset = "UTF-8", int $priority = 3)
     {
-        $validateSender = self::validateEmail($sender);
-        $validateRecipient = self::validateEmail($recipient);
+        $validateSender = Valid::email($sender);
+        $validateRecipient = Valid::email($recipient);
 
-        if ($validateSender == false) {
+        if ($validateSender == null) {
             return false;
-        } elseif ($validateRecipient == false) {
+        } elseif ($validateRecipient == null) {
             return false;
         }
 
@@ -67,21 +69,6 @@ class NativeMail extends PHPMailerClass
         $send = mail(self::$recipient, self::$subject, self::$message, $headers);
 
         if ($send) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Validate the email
-     * @param string $email
-     */
-    public static function validateEmail(string $email)
-    {
-        $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-
-        if ($email) {
             return true;
         } else {
             return false;

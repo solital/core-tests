@@ -99,13 +99,17 @@ class HandleFiles extends HandleFolders
     {
         if (!copy($file, $new_file)) {
             return false;
-        } else {
-            if ($delete_original == true) {
-                unlink($file);
+        } elseif ($delete_original == true) {
+            if (!copy($file, $new_file)) {
+                return false;
             }
+
+            unlink($file);
 
             return true;
         }
+
+        return true;
     }
 
     /**

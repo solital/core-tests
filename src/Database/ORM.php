@@ -8,6 +8,13 @@ use Solital\Core\Exceptions\NotFoundException;
 
 class ORM extends Katrina
 {
+    private $drive;
+    private $host;
+    private $name;
+    private $user;
+    private $pass;
+    private $sqlite;
+    
     /**
      * @param string $table
      * @param string $primaryKey
@@ -17,25 +24,33 @@ class ORM extends Katrina
      */
     public function __construct(string $table, string $primaryKey, array $columns)
     {
+        $this->drive = $_ENV['DB_DRIVE'];
+        $this->host = $_ENV['DB_HOST'];
+        $this->name = $_ENV['DB_NAME'];
+        $this->user = $_ENV['DB_USER'];
+        $this->pass = $_ENV['DB_PASS'];
+        $this->sqlite = $_ENV['SQLITE_DIR'];
+
         if (
-            empty($_ENV['DB_DRIVE']) ||
-            empty($_ENV['DB_HOST']) ||
-            empty($_ENV['DB_NAME']) ||
-            empty($_ENV['DB_USER']) ||
-            empty($_ENV['DB_PASS'])
+            $this->drive == "" ||
+            $this->host == "" ||
+            $this->name == "" ||
+            $this->user == ""
         ) {
             NotFoundException::notFound(404, "Database not configured", "It looks like you haven't set up the database connection variables in the '.env' file. Set them up and try again.", "Katrina");
-        } else {
-            define('DB_CONFIG', [
-                'DRIVE' => $_ENV['DB_DRIVE'],
-                'HOST' => $_ENV['DB_HOST'],
-                'DBNAME' => $_ENV['DB_NAME'],
-                'USER' => $_ENV['DB_USER'],
-                'PASS' => $_ENV['DB_PASS'],
-                'SQLITE_DIR' => $_ENV['SQLITE_DIR']
-            ]);
         }
 
+        if (!defined('DB_CONFIG')) {
+            define('DB_CONFIG', [
+                'DRIVE' => $this->drive,
+                'HOST' => $this->host,
+                'DBNAME' => $this->name,
+                'USER' => $this->user,
+                'PASS' => $this->pass,
+                'SQLITE_DIR' => $this->sqlite
+            ]);
+        }
+        
         parent::__construct($table, $primaryKey, $columns);
     }
 

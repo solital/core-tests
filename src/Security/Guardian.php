@@ -2,8 +2,8 @@
 
 namespace Solital\Core\Security;
 
-use Solital\Database\Forgot\Forgot;
 use Solital\Core\Resource\Session;
+use Solital\Core\Database\Forgot\Forgot;
 use Solital\Core\Exceptions\NotFoundException;
 
 class Guardian

@@ -22,19 +22,61 @@ abstract class WolfCache
     /**
      * @return string
      */
-    public static function getFolderCache()
+    protected static function getFolderCache()
     {
         self::$cache_dir = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
+
+        if (!is_dir(self::$cache_dir)) {
+            \mkdir(self::$cache_dir);
+        }
 
         return self::$cache_dir;
     }
 
     /**
-     * @param date $time
+     * @return static
      */
-    public static function cache($time)
+    public static function cache()
     {
-        self::$time = $time;
+        return new static();
+    }
+
+    /**
+     * @return string
+     */
+    public function forOneMinute(): string
+    {
+        self::$time = date('Hi');
+
+        return self::$time;
+    }
+
+    /**
+     * @return string
+     */
+    public function forOneHour(): string
+    {
+        self::$time = date('H');
+
+        return self::$time;
+    }
+
+    /**
+     * @return string
+     */
+    public function forOneDay(): string
+    {
+        self::$time = date('N');
+
+        return self::$time;
+    }
+
+    /**
+     * @return string
+     */
+    public function forOneWeek(): string
+    {
+        self::$time = date('W');
 
         return self::$time;
     }

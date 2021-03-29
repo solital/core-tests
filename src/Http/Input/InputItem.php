@@ -79,16 +79,6 @@ class InputItem implements InputItemInterface
     }
 
     /**
-     * @return string
-     */
-    public function getValueJson()
-    {
-        $json = encodeJSON($this->value);
-        
-        return $json;
-    }
-
-    /**
      * Set input value
      * @param string $value
      * @return static

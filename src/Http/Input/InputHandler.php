@@ -319,6 +319,16 @@ class InputHandler
     }
 
     /**
+     * @return string
+     */
+    public function getAllJson()
+    {
+        $json = encodeJSON($_GET);
+        
+        return $json;
+    }
+
+    /**
      * Add GET parameter
      *
      * @param string $key

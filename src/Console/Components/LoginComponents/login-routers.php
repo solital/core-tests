@@ -1,3 +1,7 @@
+<?php
+
+use Solital\Core\Course\Course;
+
 /** Login Routers */
 Course::get('/login', 'Auth\LoginController@login')->name('login');
 Course::post('/verify-login', 'Auth\LoginController@verify')->name('verifyLogin');

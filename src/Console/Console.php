@@ -89,80 +89,6 @@ class Console
             print_r($msg);
         }
 
-        die;
-
-        /* switch ($command) {
-            case 'controller':
-                $file = ucfirst($file_create);
-                $this->cmd->controller($file)->createComponent();
-
-                break;
-
-            case 'model':
-                $file = ucfirst($file_create);
-                $this->cmd->model($file)->createComponent();
-
-                break;
-
-            case 'view':
-                $this->cmd->view($file_create)->createComponent();
-
-                break;
-
-            case 'router':
-                $this->cmd->file($file_create . ".php", "." . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR)
-                    ->createComponent();
-
-                break;
-
-            case 'js':
-                $this->cmd->js($file_create)->createResource();
-
-                break;
-
-            case 'css':
-                $this->cmd->css($file_create)->createResource();
-
-                break;
-
-            case 'remove-controller':
-                $this->cmd->controller($file_create)->removeComponent();
-
-                break;
-
-            case 'remove-model':
-                $this->cmd->model($file_create)->removeComponent();
-
-                break;
-
-            case 'remove-view':
-                $this->cmd->view($file_create)->removeComponent();
-
-                break;
-
-            case 'remove-router':
-                $this->cmd->file($file_create, "." . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR)
-                    ->removeComponent();
-
-                break;
-
-            case 'remove-js':
-                $this->cmd->js($file_create)->removeResource();
-
-                break;
-
-            case 'remove-css':
-                $this->cmd->css($file_create)->removeResource();
-
-                break;
-
-            default:
-                $msg = $this->color->stringColor("Vinci: Command not found", "yellow", "red", true);
-
-                print_r($msg);
-                break;
-        } */
-
         return $this;
     }
 
@@ -188,51 +114,6 @@ class Console
             $msg = $this->color->stringColor("Vinci: Command not found", "yellow", "red", true);
             print_r($msg);
         }
-
-        die;
-
-        /* switch ($command) {
-            case 'cache-clear':
-                $this->cmd_system->clearCache();
-
-                break;
-
-            case 'about':
-                $this->cmd_system->about();
-
-                break;
-
-            case 'show':
-                $this->cmd_system->show();
-
-                break;
-
-            case 'login':
-                $this->files->login();
-
-                break;
-
-            case 'remove-login':
-                $this->files->removeLogin();
-
-                break;
-
-            case 'forgot':
-                $this->files->forgot();
-
-                break;
-
-            case 'remove-forgot':
-                $this->files->removeForgot();
-
-                break;
-
-            default:
-                $msg = $this->color->stringColor("Vinci: Command not found", "yellow", "red", true);
-
-                print_r($msg);
-                break;
-        } */
 
         return $this;
     }
@@ -262,7 +143,7 @@ class Console
             'cache-clear' => 'clearCache',
             'login' => 'login',
             'remove-login' => 'removeLogin',
-            'forgot' => 'show',
+            'forgot' => 'forgot',
             'remove-forgot' => 'removeForgot',
         ];
     }

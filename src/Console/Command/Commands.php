@@ -70,7 +70,7 @@ class Commands
         $this->checkExtDir();
 
         if (is_dir($this->dir)) {
-            $res = (new HandleFiles())->fileExists($this->dir . $this->resource);
+            $res = (new HandleFiles())->folder($this->dir)->fileExists($this->resource);
 
             if ($res == true) {
                 $msg = $this->color->stringColor("Error: there is a file with the same name", "yellow", "red", true);
@@ -367,18 +367,12 @@ class Commands
             $this->dir = "." . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR;
 
             return $this;
+        } elseif ($this->type == "router") {
+            $this->dir = "." . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR;
+
+            return $this;
         }
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    private function getNameOnly(string $resource): array
-    {
-        $resource = explode(".", $resource);
-
-        return $resource;
     }
 }

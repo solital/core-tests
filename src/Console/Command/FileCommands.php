@@ -12,17 +12,22 @@ class FileCommands extends Commands
     /**
      * @var string
      */
-    private $dir_controller = "." . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Components" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . "Auth" . DIRECTORY_SEPARATOR;
+    private $dir_controller;
 
     /**
      * @var string
      */
-    private $dir_view = "." . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "auth" . DIRECTORY_SEPARATOR;
+    private $dir_view;
 
     /**
      * @var string
      */
-    private $dir_router = "." . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR;
+    private $dir_router;
+
+    /**
+     * @var HandleFiles
+     */
+    private $handle;
 
     /**
      * @param bool $debug
@@ -31,10 +36,24 @@ class FileCommands extends Commands
     {
         parent::__construct($debug);
 
+        $this->handle = new HandleFiles();
+
         if ($this->debug == true) {
             $this->dir_controller = $this->dir;
             $this->dir_view = $this->dir;
             $this->dir_router = $this->dir;
+        } else {
+            $this->dir_controller = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Components" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . "Auth" . DIRECTORY_SEPARATOR;
+            $this->dir_view = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "auth" . DIRECTORY_SEPARATOR;
+            $this->dir_router = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR;
+
+            if (!is_dir($this->dir_controller)) {
+                \mkdir($this->dir_controller);
+            }
+
+            if (!is_dir($this->dir_view)) {
+                \mkdir($this->dir_view);
+            }
         }
     }
 
@@ -49,6 +68,25 @@ class FileCommands extends Commands
             if (!is_dir($this->dir_view)) {
                 \mkdir($this->dir_view);
             }
+        }
+
+        if ($this->debug != true) {
+            $file_login = $this->dir_controller . "LoginController.php";
+            $file_login_view = $this->dir_view . "login.php";
+            $file_dashboard_view = $this->dir_view . "dashboard.php";
+            $file_login_router = $this->dir_router . "login-routers.php";
+        } else {
+            $file_login = $this->dir . "LoginController.php";
+            $file_login_view = $this->dir . "login.php";
+            $file_dashboard_view = $this->dir . "dashboard.php";
+            $file_login_router  = $this->dir . "login-routers.php";
+        }
+
+        if (is_file($file_login) && is_file($file_login_view) && is_file($file_dashboard_view) && is_file($file_login_router)) {
+            $msg = $this->color->stringColor("ERROR: Login files already exist!", "yellow", "red", true);
+            print_r($msg);
+
+            die;
         }
 
         $dir_login_controller = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'LoginController.php';
@@ -108,6 +146,25 @@ class FileCommands extends Commands
      */
     public function forgot(): bool
     {
+        if ($this->debug != true) {
+            $file_forgot_controller = $this->dir_controller . 'ForgotController.php';
+            $file_forgot_view = $this->dir_view . 'forgot-form.php';
+            $file_forgot_change = $this->dir_view . 'change-pass-form.php';
+            $file_forgot_routers = $this->dir_router . 'forgot-routers.php';
+        } else {
+            $file_forgot_controller = $this->dir . "ForgotController.php";
+            $file_forgot_view = $this->dir . "forgot-form.php";
+            $file_forgot_change = $this->dir . "change-pass-form.php";
+            $file_forgot_routers = $this->dir . "forgot-routers.php";
+        }
+
+        if (is_file($file_forgot_controller) && is_file($file_forgot_view) && is_file($file_forgot_change) && is_file($file_forgot_routers)) {
+            $msg = $this->color->stringColor("ERROR: Password recovery files already exist!", "yellow", "red", true);
+            print_r($msg);
+
+            die;
+        }
+
         $dir_forgot_controller = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'ForgotController.php';
         $dir_forgot_view = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'forgot-form.php';
         $dir_forgot_change = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'change-pass-form.php';
@@ -129,7 +186,7 @@ class FileCommands extends Commands
      */
     public function removeForgot(): bool
     {
-        $this->confirmDialog("Are you sure you want to delete the forgot password components? (this process cannot be undone)? [Y/N] ");
+        #$this->confirmDialog("Are you sure you want to delete the forgot password components? (this process cannot be undone)? [Y/N] ");
 
         if ($this->debug != true) {
             $file_forgot_controller = $this->dir_controller . 'ForgotController.php';
@@ -144,6 +201,8 @@ class FileCommands extends Commands
         }
 
         $res = $this->removeFile($file_forgot_controller, $file_forgot_view, $file_forgot_change, $file_forgot_routers);
+
+        die;
 
         if ($res == true) {
             $msg = $this->color->stringColor("FORGOT: Files successfully removed! ", "green", null, true);
@@ -195,7 +254,7 @@ class FileCommands extends Commands
      */
     private function createFile(string $dir, string $output_dir)
     {
-        $res = (new HandleFiles())->fileExists($this->dir . $output_dir);
+        $res = $this->handle->folder($this->dir)->fileExists($output_dir);
 
         if ($res == true) {
             $msg = $this->color->stringColor("Error: Files already exist ", "yellow", "red", true);
@@ -204,8 +263,7 @@ class FileCommands extends Commands
             die;
         }
 
-        $file = file_get_contents($dir);
-        $res = file_put_contents($output_dir, $file);
+        $res = $this->handle->getAndPutContents($dir, $output_dir);
 
         return $res;
     }
@@ -217,15 +275,17 @@ class FileCommands extends Commands
      */
     private function removeFile(...$files): bool
     {
-        if (is_file($files[0]) && is_file($files[1]) && is_file($files[2]) && is_file($files[3])) {
-            \unlink($files[0]);
-            \unlink($files[1]);
-            \unlink($files[2]);
-            \unlink($files[3]);
-
-            return true;
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            } else {
+                return false;
+            }
         }
 
-        return false;
+        $this->handle->remove($this->dir_controller);
+        #$this->handle->remove($this->dir_view);
+
+        return true;
     }
 }

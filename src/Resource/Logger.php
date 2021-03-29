@@ -64,13 +64,12 @@ class Logger implements LoggerInterface
     /**
      * Logger constructor
      *
-     * @param string $log_file  File name and path of log file.
      * @param string $channel   Logger channel associated with this logger.
      * @param string $log_level (optional) Lowest log level to log.
      */
-    public function __construct(string $log_file, string $channel, string $log_level = LogLevel::DEBUG)
+    public function __construct(string $channel, string $log_level = LogLevel::DEBUG)
     {
-        $this->log_file  = $log_file;
+        $this->log_file  = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "log" . DIRECTORY_SEPARATOR . "solital-log.txt";
         $this->channel   = $channel;
         $this->stdout    = false;
         $this->setLogLevel($log_level);

@@ -9,7 +9,7 @@ class Valid
      * 
      * @return string|null
      */
-    public function email(string $email): ?string
+    public static function email(string $email): ?string
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $email;
@@ -23,7 +23,7 @@ class Valid
      * 
      * @return mixed|null
      */
-    public function number($number)
+    public static function number($number)
     {
         if (is_int($number)) {
             if (filter_var($number, FILTER_VALIDATE_INT)) {
@@ -47,7 +47,7 @@ class Valid
      * 
      * @return bool
      */
-    public function isNull($value): bool
+    public static function isNull($value): bool
     {
         if (is_null($value)) {
             return true;
@@ -61,7 +61,7 @@ class Valid
      * 
      * @return string
      */
-    public function isLower(string $value): string
+    public static function isLower(string $value): string
     {
         if (ctype_lower($value)) {
             return $value;
@@ -75,7 +75,7 @@ class Valid
      * 
      * @return string
      */
-    public function isUpper(string $value): string
+    public static function isUpper(string $value): string
     {
         if (ctype_upper($value)) {
             return $value;

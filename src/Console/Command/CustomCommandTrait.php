@@ -4,9 +4,25 @@ namespace Solital\Core\Console\Command;
 
 use Solital\CustomConsole;
 use Solital\Core\Database\ORMConsole;
+use Solital\Core\Resource\FileSystem\HandleFiles;
+use Solital\Database\SQL;
 
 trait CustomCommandTrait
 {
+    /**
+     * @var string
+     */
+    private string $dir_app;
+
+    /**
+     * @return string
+     */
+    private function getDirApp(): string
+    {
+        $this->dir_app = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR;
+
+        return $this->dir_app;
+    }
     /**
      * @param array $array
      * @param string $cmd
@@ -26,7 +42,6 @@ trait CustomCommandTrait
 
             $msg = $this->color->stringColor("Command successfully executed!", "green", null, true);
             print_r($msg);
-
         } else {
             return null;
         }
@@ -41,11 +56,7 @@ trait CustomCommandTrait
      */
     public function execCommand(string $cmd)
     {
-        if (strpos($cmd, 'katrina') === false) {
-            $res = (new CustomConsole())->execute();
-        } else {
-            $res = (new ORMConsole())->execute();
-        }
+        $res = $this->verifyKatrinaCommand($cmd);
 
         if (is_array($res)) {
             $this->prepare($res, $cmd);
@@ -56,31 +67,45 @@ trait CustomCommandTrait
         return $this;
     }
 
-    /* /**
-     * @param string $cmd
-     * @param string $desc
-     * 
-     * @return CustomCommand
-     *
-    public function registerComponent(string $cmd, string $desc): CustomCommand
-    {
-        $res = $this->register()->componentsRegistered($cmd, $desc);
-
-        var_dump($res);
-
-        return $this;
-    }
-
     /**
      * @param string $cmd
-     * @param string $desc
      * 
-     * @return CustomCommand
-     *
-    public function registerCommand(string $cmd, string $desc): CustomCommand
+     * @return array|null
+     */
+    private function verifyKatrinaCommand(string $cmd): ?array
     {
-        $this->register()->commandsRegistered($cmd, $desc);
+        $sql = new SQL();
 
-        return $this;
-    } */
+        if (strpos($cmd, 'katrina') === false) {
+            $res = (new CustomConsole())->execute();
+
+            return $res;
+        } else if (stripos($cmd, ":") !== false) {
+            $file = explode(':', $cmd);
+            $method = $file[1];
+
+            if (method_exists($sql, $method)) {
+                $sql_file = $this->getDirApp() . "Database" . DIRECTORY_SEPARATOR . "SQL.php";
+                $sql_file_cache = $this->getDirApp() . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "sql" . DIRECTORY_SEPARATOR . "cache-sql-" . date('Y-m-d-His') . ".php";
+
+                (new HandleFiles())->getAndPutContents($sql_file, $sql_file_cache);
+
+                $sql->$method();
+
+                $msg = $this->color->stringColor("KATRINA: Command successfully executed!", "green", null, true);
+                print_r($msg);
+            } else {
+                $msg = $this->color->stringColor("KATRINA: Table '$method' not found in SQL.php ", "yellow", "red", true);
+                print_r($msg);
+            }
+
+            die;
+        } else {
+            $res = (new ORMConsole())->execute();
+
+            return $res;
+        }
+
+        return null;
+    }
 }

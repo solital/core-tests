@@ -60,11 +60,11 @@ class Dump
             die;
         }
 
-        $this->setDrive($this->data['DRIVE']);
-        $this->setDatabase($this->data['DATABASE']);
-        $this->setHost($this->data['HOST']);
-        $this->setUsername($this->data['USERNAME']);
-        $this->setPassword($this->data['PASSWORD']);
+        $this->setDrive($this->data['DB_DRIVE']);
+        $this->setDatabase($this->data['DB_NAME']);
+        $this->setHost($this->data['DB_HOST']);
+        $this->setUsername($this->data['DB_USER']);
+        $this->setPassword($this->data['DB_PASS']);
 
         $this->path_bkp = $path_bkp;
     }
@@ -184,7 +184,7 @@ class Dump
         $pass = $this->getPassword() ? "-p " . $this->getPassword() : "";
 
         if ($this->getDrive() == "mysql") {
-            $cmd = "{$exec} -u {$this->getUsername()} " . $pass . " {$this->getDatabase()} > " . $path . DIRECTORY_SEPARATOR . "dump.sql";
+            $cmd = "{$exec} -u {$this->getUsername()} " . $pass . " {$this->getDatabase()} > " . $path . DIRECTORY_SEPARATOR . "dump-".date('Ymd-His').".sql";
         } elseif ($this->getDrive() == "pg") {
             $cmd = "{$exec} {$this->getDatabase()} > {$this->path_bkp}";
         } else {
@@ -209,7 +209,7 @@ class Dump
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             if ($this->getDrive() == "mysql") {
-                $this->command = $this->data['MYSQLDUMP'];
+                $this->command = $this->data['MYSQL_DUMP'];
             } elseif ($this->getDrive() == "pgadmin") {
                 $this->command = $this->data['PG_DUMP'];
             } elseif ($this->getDrive() == "sqlite") {

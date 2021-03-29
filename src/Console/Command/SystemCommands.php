@@ -25,9 +25,9 @@ class SystemCommands extends Commands
     private array $desc;
 
     /**
-     * @var string
+     * @var array
      */
-    private string $dir_cache;
+    private array $dir_cache;
 
     /**
      * Construct
@@ -45,16 +45,25 @@ class SystemCommands extends Commands
      */
     public function clearCache(): bool
     {
-        if ($this->debug != true) {
-            $this->dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "Cache" . DIRECTORY_SEPARATOR;
-        } else {
+        $this->dir_cache = [
+            'sql',
+            'wolf'
+        ];
+
+        if ($this->debug == true) {
             $msg = $this->color->stringColor("CACHE: Debug mode enabled! It is not possible to delete the cache!", "yellow", "red", true);
             print_r($msg);
 
             die;
         }
 
-        if (is_dir($this->dir)) {
+        foreach ($this->dir_cache as $folder) {
+            $this->dir = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR;
+
+            if (!is_dir($this->dir)) {
+                \mkdir($this->dir);
+            }
+
             $directory = dir($this->dir);
 
             while ($file = $directory->read()) {
@@ -63,18 +72,13 @@ class SystemCommands extends Commands
                 }
             }
 
-            $msg = $this->color->stringColor("Cache was cleared successfully!", "green", null, true);
-            print_r($msg);
-
             $directory->close();
-
-            return true;
-        } else {
-            $msg = $this->color->stringColor("There was an error while clearing the cache ", "yellow", "red", true);
-            print_r($msg);
-
-            return false;
         }
+
+        $msg = $this->color->stringColor("Cache was cleared successfully!", "green", null, true);
+        print_r($msg);
+
+        return true;
     }
 
     /**

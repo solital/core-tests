@@ -15,7 +15,8 @@ use Solital\Core\Wolf\WolfMinify;
 
 #cloner($array);
 dumper($array, true);
-#dump($array); */
+#dump($array); 
+is_json($json) return true or false*/
 
 echo '<pre>';
 
@@ -32,3 +33,5 @@ $handle = new HandleFiles();
 #$res = $handle->getFullPermission('config.php');
 
 var_dump($res);
+
+#echo input()->getAllJson();

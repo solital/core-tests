@@ -4,12 +4,12 @@ namespace Solital\Core\Database;
 
 use Solital\Core\Database\Create\Create;
 use Solital\Core\Console\Command\CustomCommand;
-use Solital\Core\Console\Command\CustomConsoleInterface;
 use Solital\Core\Console\Command\DatabaseCommand;
+use Solital\Core\Console\Command\CustomConsoleInterface;
 
 class ORMConsole extends CustomCommand implements CustomConsoleInterface
 {
-    use SQLTrait;
+    #use SQLTrait;
     
     /**
      * @return array
