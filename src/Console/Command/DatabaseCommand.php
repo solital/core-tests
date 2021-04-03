@@ -32,7 +32,7 @@ class DatabaseCommand
      */
     public function dump(): DatabaseCommand
     {
-        $dir = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "dump" . DIRECTORY_SEPARATOR;
+        $dir = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "dump" . DIRECTORY_SEPARATOR;
 
         $res = (new Dump())->dumpDatabase($dir);
 

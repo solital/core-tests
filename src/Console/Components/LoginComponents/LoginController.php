@@ -4,7 +4,7 @@ namespace Solital\Components\Controller\Auth;
 
 use Solital\Core\Auth\Auth;
 use Solital\Core\Wolf\Wolf;
-use Solital\Core\Security\Guardian;
+use Solital\Core\Resource\Message;
 
 class LoginController extends Auth
 {
@@ -13,31 +13,36 @@ class LoginController extends Auth
      */
     public function __construct()
     {
-        Guardian::checkLogin();
+        Auth::defineUrl(url('auth'), url('dashboard'));
+        $this->message = new Message();
     }
+
     /**
      * @return void
      */
-    public function login(): void
+    public function auth(): void
     {
-        Guardian::checkLogged();
+        Auth::isLogged();
 
-        Wolf::loadView('auth.login-form', [
-            'title' => 'Login'
+        Wolf::loadView('auth.login', [
+            'title' => 'Login',
+            'msg' => $this->message->get('login')
         ]);
     }
 
     /**
      * @return void
      */
-    public function verify(): void
+    public function authPost(): void
     {
-        $res = $this->columns('username', 'pass')
-            ->values('email', 'pass')
-            ->register('tb_auth');
+        $res = Auth::login('tb_auth')
+            ->columns('username', 'password')
+            ->values('inputEmail', 'inputPassword')
+            ->register();
 
         if ($res == false) {
-            response()->redirect(url('login'));
+            $this->message->new('login', 'Invalid username and/or password!');
+            response()->redirect(url('auth'));
         }
     }
 
@@ -46,7 +51,9 @@ class LoginController extends Auth
      */
     public function dashboard(): void
     {
-        Wolf::loadView('auth.login-dashboard', [
+        Auth::isNotLogged();
+
+        Wolf::loadView('auth.dashboard', [
             'title' => 'Dashboard',
         ]);
     }
@@ -56,6 +63,7 @@ class LoginController extends Auth
      */
     public function exit(): void
     {
-        Guardian::logoff();
+        $this->message->new('login', 'Logoff successfully!');
+        Auth::logoff();
     }
 }

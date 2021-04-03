@@ -2,24 +2,49 @@
 
 namespace Solital\Components\Controller\Auth;
 
+use Solital\Core\Auth\Auth;
 use Solital\Core\Wolf\Wolf;
 use Solital\Core\Security\Hash;
-use Solital\Core\Security\Guardian;
-use Solital\Core\Database\Forgot\Reset;
-use Solital\Core\Database\Forgot\Forgot;
+use Solital\Core\Resource\Message;
 
 class ForgotController
 {
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        Auth::defineUrl(url('auth'), url('dashboard'));
+        $this->message = new Message();
+    }
+
     /**
      * @return void
      */
     public function forgot(): void
     {
-        Guardian::checkLogged();
-
         Wolf::loadView('auth.forgot-form', [
-            'title' => 'Forgot Password'
+            'title' => 'Forgot Password',
+            'msg' => $this->message->get('forgot')
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function forgotPost(): void
+    {
+        $email = input()->post('email')->getValue();
+
+        $res = Auth::forgot('tb_auth')
+            ->columns('username')
+            ->values($email, url('change'))
+            ->register();
+
+        if ($res == true) {
+            $this->message->new('forgot', 'Invalid username!');
+            response()->redirect(url('forgot'));
+        }
     }
 
     /**
@@ -40,21 +65,8 @@ class ForgotController
                 'hash' => $hash
             ]);
         } else {
+            $this->message->new('login', 'The informed link has already expired!');
             response()->redirect(url('login'));
-        }
-    }
-
-    /**
-     * @return void
-     */
-    public function forgotPost(): void
-    {
-        $email = input()->post('email')->getValue();
-
-        $res = (new Reset())->table('tb_auth', 'username')->forgotPass($email, '/admin/change');
-
-        if ($res == true) {
-            response()->redirect(url('forgot'));
         }
     }
 
@@ -69,13 +81,19 @@ class ForgotController
         $email = Hash::decrypt($hash)::value();
 
         if ($res == true) {
-            $pass = input()->post('pass')->getValue();
-            $confPass = input()->post('confPass')->getValue();
+            $pass = input()->post('inputPass')->getValue();
+            $confPass = input()->post('inputConfPass')->getValue();
 
             if ($pass != $confPass) {
+                $this->message->new('forgot', 'The fields do not match!');
                 response()->redirect(url('change', ['hash' => $hash]));
             } else {
-                echo 'enter the code that will change the password here';
+                Auth::change('tb_auth')
+                    ->columns('username', 'password')
+                    ->values($email, $pass)
+                    ->register();
+
+                response()->redirect(url('login'));
             }
         } else {
             response()->redirect(url('login'));

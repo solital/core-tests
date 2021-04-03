@@ -58,7 +58,7 @@ class Commands
             $this->dir = "." . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "files_test" . DIRECTORY_SEPARATOR;
         }
 
-        $this->template = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+        $this->template = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
         $this->color = new Colors();
     }
 

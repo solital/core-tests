@@ -2,8 +2,10 @@
 
 namespace Solital\Core\Database;
 
+use PDO;
 use Katrina\Katrina;
 use Katrina\Connection\DB as DB;
+use Katrina\Exception\Exception;
 use Solital\Core\Exceptions\NotFoundException;
 
 class ORM extends Katrina
@@ -42,12 +44,12 @@ class ORM extends Katrina
 
         if (!defined('DB_CONFIG')) {
             define('DB_CONFIG', [
-                'DRIVE' => $this->drive,
-                'HOST' => $this->host,
-                'DBNAME' => $this->name,
-                'USER' => $this->user,
-                'PASS' => $this->pass,
-                'SQLITE_DIR' => $this->sqlite
+                'DRIVE' => $_ENV['DB_DRIVE'],
+                'HOST' => $_ENV['DB_HOST'],
+                'DBNAME' => $_ENV['DB_NAME'],
+                'USER' => $_ENV['DB_USER'],
+                'PASS' => $_ENV['DB_PASS'],
+                'SQLITE_DIR' => $_ENV['SQLITE_DIR']
             ]);
         }
         
@@ -61,7 +63,19 @@ class ORM extends Katrina
      */
     public static function query($sql)
     {
-        return DB::query($sql);
+        try {
+            $stmt = DB::query($sql);
+            $stmt->execute();
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($res == false) {
+                return false;
+            }
+
+            return $res;
+        } catch (\PDOException $e) {
+            Exception::alertMessage($e, "'queryDatabase()' error");
+        }
     }
 
     /**

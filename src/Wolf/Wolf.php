@@ -33,13 +33,13 @@ class Wolf extends WolfCache
     public static function loadView(string $view, array $data = null, string $ext = "php")
     {
         $view = str_replace(".", DIRECTORY_SEPARATOR, $view);
-        $file = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
+        $file = SITE_ROOT . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
 
         /** Create or browse the cached file  */
         self::$file_cache = self::getFolderCache() . $view . "-" . date('Ymd') . "-" . self::$time . ".cache.php";
 
         if (strpos($view, "/")) {
-            $file = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
+            $file = SITE_ROOT . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
 
             $viewForCache = str_replace("/", ".", $view);
             self::$file_cache = self::getFolderCache() . $viewForCache . "-" . date('Ymd') . "-" . self::$time . ".cache.php";
@@ -98,8 +98,6 @@ class Wolf extends WolfCache
     {
         $file = self::getInstance() . 'assets/_css/' . $asset;
 
-        self::checkMinify('assets/_css/style.min.js');
-
         return $file;
     }
 
@@ -111,8 +109,6 @@ class Wolf extends WolfCache
     public static function loadJs(string $asset = ""): string
     {
         $file = self::getInstance() . 'assets/_js/' . $asset;
-
-        self::checkMinify('assets/_js/script.min.js');
 
         return $file;
     }
@@ -127,19 +123,5 @@ class Wolf extends WolfCache
         $file = self::getInstance() . 'assets/_img/' . $asset;
 
         return $file;
-    }
-
-    /**
-     * @param string $asset
-     * 
-     * @return string
-     */
-    private static function checkMinify(string $asset): string
-    {
-        if (self::$minify_mode == true) {
-            $file = self::getInstance() . 'assets/';
-
-            return $file;
-        }
     }
 }

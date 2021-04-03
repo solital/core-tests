@@ -24,7 +24,7 @@ abstract class WolfCache
      */
     protected static function getFolderCache()
     {
-        self::$cache_dir = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
+        self::$cache_dir = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
 
         if (!is_dir(self::$cache_dir)) {
             \mkdir(self::$cache_dir);

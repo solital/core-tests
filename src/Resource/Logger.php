@@ -69,7 +69,7 @@ class Logger implements LoggerInterface
      */
     public function __construct(string $channel, string $log_level = LogLevel::DEBUG)
     {
-        $this->log_file  = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "log" . DIRECTORY_SEPARATOR . "solital-log.txt";
+        $this->log_file  = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "log" . DIRECTORY_SEPARATOR . "solital-log.txt";
         $this->channel   = $channel;
         $this->stdout    = false;
         $this->setLogLevel($log_level);

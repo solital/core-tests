@@ -20,7 +20,7 @@ class NotFoundHttpException extends HttpException
      * 
      * @return void
      */
-    public static function alertMessage(int $code, string $msg): void
+    public static function alertMessage(int $code, string $msg, string $description = "", string $component = 'Solital'): void
     {
         if (self::$error == true) {
             header('Location: ' . self::$url);

@@ -19,7 +19,7 @@ trait CustomCommandTrait
      */
     private function getDirApp(): string
     {
-        $this->dir_app = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR;
+        $this->dir_app = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR;
 
         return $this->dir_app;
     }

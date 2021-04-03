@@ -58,7 +58,7 @@ class SystemCommands extends Commands
         }
 
         foreach ($this->dir_cache as $folder) {
-            $this->dir = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR;
+            $this->dir = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . $folder . DIRECTORY_SEPARATOR;
 
             if (!is_dir($this->dir)) {
                 \mkdir($this->dir);

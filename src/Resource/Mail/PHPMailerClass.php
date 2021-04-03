@@ -20,7 +20,7 @@ class PHPMailerClass
     {
         $this->mail = new PHPMailer($exceptions);
 
-        $this->mail->SMTPDebug = $_ENV['PHPMAILER_DEBUG'];
+        $this->mail->SMTPDebug = (int)$_ENV['PHPMAILER_DEBUG'];
         $this->mail->isSMTP();
         $this->mail->Host       = $_ENV['PHPMAILER_HOST'];
         $this->mail->SMTPAuth   = true;

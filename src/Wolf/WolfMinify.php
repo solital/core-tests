@@ -70,7 +70,7 @@ class WolfMinify
      */
     private static function getDirCss(): string
     {
-        self::$dir = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "resources"  . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "_css" . DIRECTORY_SEPARATOR;
+        self::$dir = SITE_ROOT . DIRECTORY_SEPARATOR . "resources"  . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "_css" . DIRECTORY_SEPARATOR;
 
         return self::$dir;
     }
@@ -80,7 +80,7 @@ class WolfMinify
      */
     private static function getDirJs(): string
     {
-        self::$dir = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . "resources"  . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "_js" . DIRECTORY_SEPARATOR;
+        self::$dir = SITE_ROOT . DIRECTORY_SEPARATOR . "resources"  . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "assets" . DIRECTORY_SEPARATOR . "_js" . DIRECTORY_SEPARATOR;
 
         return self::$dir;
     }

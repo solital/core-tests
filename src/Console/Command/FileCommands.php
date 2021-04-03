@@ -36,6 +36,8 @@ class FileCommands extends Commands
     {
         parent::__construct($debug);
 
+
+
         $this->handle = new HandleFiles();
 
         if ($this->debug == true) {
@@ -43,9 +45,9 @@ class FileCommands extends Commands
             $this->dir_view = $this->dir;
             $this->dir_router = $this->dir;
         } else {
-            $this->dir_controller = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Components" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . "Auth" . DIRECTORY_SEPARATOR;
-            $this->dir_view = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "auth" . DIRECTORY_SEPARATOR;
-            $this->dir_router = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR;
+            $this->dir_controller = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Components" . DIRECTORY_SEPARATOR . "Controller" . DIRECTORY_SEPARATOR . "Auth" . DIRECTORY_SEPARATOR;
+            $this->dir_view = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR . "auth" . DIRECTORY_SEPARATOR;
+            $this->dir_router = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "routers" . DIRECTORY_SEPARATOR;
 
             if (!is_dir($this->dir_controller)) {
                 \mkdir($this->dir_controller);
@@ -186,7 +188,7 @@ class FileCommands extends Commands
      */
     public function removeForgot(): bool
     {
-        #$this->confirmDialog("Are you sure you want to delete the forgot password components? (this process cannot be undone)? [Y/N] ");
+        $this->confirmDialog("Are you sure you want to delete the forgot password components? (this process cannot be undone)? [Y/N] ");
 
         if ($this->debug != true) {
             $file_forgot_controller = $this->dir_controller . 'ForgotController.php';
@@ -201,8 +203,6 @@ class FileCommands extends Commands
         }
 
         $res = $this->removeFile($file_forgot_controller, $file_forgot_view, $file_forgot_change, $file_forgot_routers);
-
-        die;
 
         if ($res == true) {
             $msg = $this->color->stringColor("FORGOT: Files successfully removed! ", "green", null, true);

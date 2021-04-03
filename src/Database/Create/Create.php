@@ -15,10 +15,15 @@ class Create
     protected $orm;
 
     /**
+     * @var instance
+     */
+    private $colors;
+
+    /**
      * @var string
      */
     private string $table;
-    
+
     /**
      * @var string
      */
@@ -34,6 +39,7 @@ class Create
      */
     public function __construct()
     {
+        $this->colors = new Colors();
         $this->table = "tb_auth";
         $this->primary_key = "id_user";
         $this->columns = [
@@ -62,13 +68,19 @@ class Create
             ->build();
 
         if ($res == true) {
-            ## pass = solital
-            $this->orm->insert(['solital@email.com', '$2y$10$caZsHBy5/uPkCREwLCSlmOzQHIcCWlYre1IQuX3cxY/zRPyROEflC']);
-
-            $msg = (new Colors())->stringColor("Table and user created successfully!", "green", null, true);
+            $msg = $this->colors->stringColor("Table created successfully!", "green", null, true);
             print_r($msg);
+
+            $users = $this->orm->select()->build('ALL');
+
+            if (empty($users)) {
+                $this->orm->insert(['solital@email.com', '$2y$10$AeVWwNrzVXvGH6HqjEjZrOI31E4bzo8bxY6UhPc74qepsAG55StHu']);
+
+                $msg = $this->colors->stringColor("User created successfully!", "green", null, true);
+                print_r($msg);
+            }
         } else {
-            $msg = (new Colors())->stringColor("Error: table not created!", "yellow", "red", true);
+            $msg = $this->colors->stringColor("Error: table not created!", "yellow", "red", true);
             print_r($msg);
         }
     }

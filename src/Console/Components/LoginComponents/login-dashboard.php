@@ -1,2 +1,2 @@
 <h1>Dashboard</h1>
-<a href="<?= url('exit'); ?>">Loggof</a>
+<a href="<?= url('logoff'); ?>">Logoff</a>

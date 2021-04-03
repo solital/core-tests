@@ -444,7 +444,7 @@ class Router
         }
 
         if ($methodNotAllowed === true) {
-            return NotFoundHttpException::alertMessage(403, "Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", $this->request->getUri()->getPath());
+            return NotFoundHttpException::alertMessage(403, "Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", "This route was not defined with method ". strtoupper($this->request->getMethod()) .", but with another method.");
         }
 
         if (\count($this->request->getLoadedRoutes()) === 0) {
@@ -452,9 +452,9 @@ class Router
             $rewriteUrl = $this->request->getRewriteUrl();
 
             if ($rewriteUrl !== null) {
-                return NotFoundHttpException::alertMessage(404, "Route '" . $rewriteUrl . "' not found (rewrite from: '", $this->request->getUri()->getPath() . "')");
+                return NotFoundHttpException::alertMessage(404, "Route '" . $rewriteUrl . "' not found (rewrite from: '". $this->request->getUri()->getPath() . "')");
             } else {
-                return NotFoundHttpException::alertMessage(404, "Route '" . $this->request->getUri()->getPath() . "' not found", $this->request->getUri()->getPath());
+                return NotFoundHttpException::alertMessage(404, "Route '" . $this->request->getUri()->getPath() . "' not found", "Check if the given route exists in the 'routers.php' file or another route file.");
             }
         }
 

@@ -3,7 +3,7 @@
 use Solital\Core\Course\Course;
 
 /** Login Routers */
-Course::get('/login', 'Auth\LoginController@login')->name('login');
-Course::post('/verify-login', 'Auth\LoginController@verify')->name('verifyLogin');
+Course::get('/auth', 'Auth\LoginController@auth')->name('auth');
+Course::post('/auth-post', 'Auth\LoginController@authPost')->name('auth.post');
 Course::get('/dashboard', 'Auth\LoginController@dashboard')->name('dashboard');
-Course::get('/logoff', 'Auth\LoginController@exit')->name('exit');
+Course::get('/logoff', 'Auth\LoginController@exit')->name('logoff');

@@ -58,6 +58,17 @@ class Course extends NotFoundHttpException
      */
     public static function start(): void
     {
+        if (!defined('DB_CONFIG')) {
+            define('DB_CONFIG', [
+                'DRIVE' => $_ENV['DB_DRIVE'],
+                'HOST' => $_ENV['DB_HOST'],
+                'DBNAME' => $_ENV['DB_NAME'],
+                'USER' => $_ENV['DB_USER'],
+                'PASS' => $_ENV['DB_PASS'],
+                'SQLITE_DIR' => $_ENV['SQLITE_DIR']
+            ]);
+        }
+
         echo static::router()->start();
     }
 
