@@ -10,12 +10,35 @@ use Solital\Core\Exceptions\NotFoundException;
 
 class ORM extends Katrina
 {
-    private $drive;
-    private $host;
-    private $name;
-    private $user;
-    private $pass;
-    private $sqlite;
+    /**
+     * @var string
+     */
+    private string $drive;
+    
+    /**
+     * @var string
+     */
+    private string $host;
+    
+    /**
+     * @var string
+     */
+    private string $name;
+    
+    /**
+     * @var string
+     */
+    private string $user;
+    
+    /**
+     * @var string
+     */
+    private string $pass;
+    
+    /**
+     * @var string
+     */
+    private string $sqlite;
     
     /**
      * @param string $table
@@ -44,12 +67,12 @@ class ORM extends Katrina
 
         if (!defined('DB_CONFIG')) {
             define('DB_CONFIG', [
-                'DRIVE' => $_ENV['DB_DRIVE'],
-                'HOST' => $_ENV['DB_HOST'],
-                'DBNAME' => $_ENV['DB_NAME'],
-                'USER' => $_ENV['DB_USER'],
-                'PASS' => $_ENV['DB_PASS'],
-                'SQLITE_DIR' => $_ENV['SQLITE_DIR']
+                'DRIVE' => $this->drive,
+                'HOST' => $this->host,
+                'DBNAME' => $this->name,
+                'USER' => $this->user,
+                'PASS' => $this->pass,
+                'SQLITE_DIR' => $this->sqlite
             ]);
         }
         

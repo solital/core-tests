@@ -36,8 +36,6 @@ class FileCommands extends Commands
     {
         parent::__construct($debug);
 
-
-
         $this->handle = new HandleFiles();
 
         if ($this->debug == true) {
@@ -94,12 +92,16 @@ class FileCommands extends Commands
         $dir_login_controller = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'LoginController.php';
         $dir_login_form = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-form.php';
         $dir_login_dashboard = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-dashboard.php';
+        $dir_login_header = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'header.php';
+        $dir_login_footer = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'footer.php';
         $dir_login_routers = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-routers.php';
 
-        $this->createFile($dir_login_controller, $this->dir_controller . 'LoginController.php');
-        $this->createFile($dir_login_form, $this->dir_view . 'login.php');
-        $this->createFile($dir_login_dashboard, $this->dir_view . 'dashboard.php');
-        $this->createFile($dir_login_routers, $this->dir_router . 'login-routers.php');
+        $this->createFile($dir_login_controller, $this->dir_controller, 'LoginController.php');
+        $this->createFile($dir_login_form, $this->dir_view, 'login.php');
+        $this->createFile($dir_login_dashboard, $this->dir_view, 'dashboard.php');
+        $this->createFile($dir_login_header, $this->dir_view, 'header.php');
+        $this->createFile($dir_login_footer, $this->dir_view, 'footer.php');
+        $this->createFile($dir_login_routers, $this->dir_router, 'login-routers.php');
 
         (new Create())->userAuth();
 
@@ -152,30 +154,45 @@ class FileCommands extends Commands
             $file_forgot_controller = $this->dir_controller . 'ForgotController.php';
             $file_forgot_view = $this->dir_view . 'forgot-form.php';
             $file_forgot_change = $this->dir_view . 'change-pass-form.php';
+            $file_forgot_header = $this->dir_view . 'header.php';
+            $file_forgot_footer = $this->dir_view . 'footer.php';
             $file_forgot_routers = $this->dir_router . 'forgot-routers.php';
         } else {
             $file_forgot_controller = $this->dir . "ForgotController.php";
             $file_forgot_view = $this->dir . "forgot-form.php";
             $file_forgot_change = $this->dir . "change-pass-form.php";
+            $file_forgot_header = $this->dir . "header.php";
+            $file_forgot_footer = $this->dir . "footer.php";
             $file_forgot_routers = $this->dir . "forgot-routers.php";
         }
 
-        if (is_file($file_forgot_controller) && is_file($file_forgot_view) && is_file($file_forgot_change) && is_file($file_forgot_routers)) {
+        /* if (
+            is_file($file_forgot_controller) &&
+            is_file($file_forgot_view) &&
+            is_file($file_forgot_change) &&
+            is_file($file_forgot_routers) &&
+            is_file($file_forgot_header) &&
+            is_file($file_forgot_footer)
+        ) {
             $msg = $this->color->stringColor("ERROR: Password recovery files already exist!", "yellow", "red", true);
             print_r($msg);
 
             die;
-        }
+        } */
 
         $dir_forgot_controller = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'ForgotController.php';
         $dir_forgot_view = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'forgot-form.php';
+        $dir_forgot_header = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'header.php';
+        $dir_forgot_footer = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'footer.php';
         $dir_forgot_change = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'change-pass-form.php';
         $dir_forgot_routers = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'ForgotComponents' . DIRECTORY_SEPARATOR . 'forgot-routers.php';
 
-        $this->createFile($dir_forgot_controller, $this->dir_controller . 'ForgotController.php');
-        $this->createFile($dir_forgot_view, $this->dir_view . 'forgot-form.php');
-        $this->createFile($dir_forgot_change, $this->dir_view . 'change-pass-form.php');
-        $this->createFile($dir_forgot_routers, $this->dir_router . 'forgot-routers.php');
+        $this->createFile($dir_forgot_controller, $this->dir_controller, 'ForgotController.php');
+        $this->createFile($dir_forgot_view, $this->dir_view, 'forgot-form.php');
+        $this->createFile($dir_forgot_change, $this->dir_view, 'change-pass-form.php');
+        $this->createFile($dir_forgot_header, $this->dir_view, 'header.php');
+        $this->createFile($dir_forgot_footer, $this->dir_view, 'footer.php');
+        $this->createFile($dir_forgot_routers, $this->dir_router, 'forgot-routers.php');
 
         $msg = $this->color->stringColor("FORGOT: Files successfully created! ", "green", null, true);
         print_r($msg);
@@ -220,7 +237,7 @@ class FileCommands extends Commands
     /**
      * @return FileCommands
      */
-    private function confirmDialog(string $msg): FileCommands
+    public function confirmDialog(string $msg): FileCommands
     {
         $msg = $this->color->stringColor($msg, "white", null);
         print_r($msg);
@@ -250,22 +267,19 @@ class FileCommands extends Commands
      * @param string $dir
      * @param string $output_dir
      * 
-     * @return mixed
+     * @return null|mixed
      */
-    private function createFile(string $dir, string $output_dir)
+    private function createFile(string $dir, string $output_dir, string $file)
     {
-        $res = $this->handle->folder($this->dir)->fileExists($output_dir);
+        $res = $this->handle->folder($output_dir)->fileExists($file);
 
-        if ($res == true) {
-            $msg = $this->color->stringColor("Error: Files already exist ", "yellow", "red", true);
-            print_r($msg);
+        if ($res != true) {
+            $res = $this->handle->getAndPutContents($dir, $output_dir . $file);
 
-            die;
+            return $res;
         }
 
-        $res = $this->handle->getAndPutContents($dir, $output_dir);
-
-        return $res;
+        return null;
     }
 
     /**

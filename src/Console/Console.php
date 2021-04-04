@@ -80,6 +80,8 @@ class Console
                 $method2 = explode('remove-', $function);
                 $execute_method2 = $method2[1];
 
+                $this->files->confirmDialog("Do you really want to remove this component?[Y/N]");
+
                 $this->cmd->$execute_method2($file_create)->removeComponent();
 
                 die;
@@ -141,6 +143,7 @@ class Console
             'version' => 'version',
             'show' => 'show',
             'cache-clear' => 'clearCache',
+            'clear-session' => 'clearSession',
             'login' => 'login',
             'remove-login' => 'removeLogin',
             'forgot' => 'forgot',

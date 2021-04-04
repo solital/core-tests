@@ -58,7 +58,7 @@ class Commands
             $this->dir = "." . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "files_test" . DIRECTORY_SEPARATOR;
         }
 
-        $this->template = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
+        $this->template = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
         $this->color = new Colors();
     }
 
@@ -78,22 +78,6 @@ class Commands
 
                 return false;
             }
-
-            /* if ($this->type == "controller") {
-                $this->putContents($this->template . "ControllerName.php");
-            } elseif ($this->type == "model") {
-                $this->putContents($this->template . "ModelName.php");
-            } elseif ($this->type == "css") {
-                $this->putContents($this->template);
-            } elseif ($this->type == "js") {
-                $this->putContents($this->template);
-            } elseif ($this->type == "view") {
-                $this->putContents($this->template);
-            } elseif ($this->type == "router") {
-                $this->putContents($this->template . "RouterName.php");
-            } elseif ($this->type == "file") {
-                $this->putContents($this->template);
-            } */
 
             $this->putContents($this->template);
 

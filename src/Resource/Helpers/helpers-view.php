@@ -15,6 +15,16 @@ function loadCss(string $asset): string
 }
 
 /**
+ * @return string
+ */
+function loadMinCss(): string
+{
+    $css = Wolf::loadCss('style.min.css');
+
+    return $css;
+}
+
+/**
  * @param string $asset
  * 
  * @return string
@@ -22,6 +32,16 @@ function loadCss(string $asset): string
 function loadJs(string $asset): string
 {
     $css = Wolf::loadJs($asset);
+
+    return $css;
+}
+
+/**
+ * @return string
+ */
+function loadMinJs(): string
+{
+    $css = Wolf::loadJs('script.min.js');
 
     return $css;
 }

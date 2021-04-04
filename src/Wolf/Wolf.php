@@ -94,7 +94,7 @@ class Wolf extends WolfCache
      * 
      * @return string
      */
-    public static function loadCss(string $asset = ""): string
+    public static function loadCss(string $asset): string
     {
         $file = self::getInstance() . 'assets/_css/' . $asset;
 
@@ -106,7 +106,7 @@ class Wolf extends WolfCache
      * 
      * @return string
      */
-    public static function loadJs(string $asset = ""): string
+    public static function loadJs(string $asset): string
     {
         $file = self::getInstance() . 'assets/_js/' . $asset;
 

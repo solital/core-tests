@@ -43,6 +43,40 @@ class SystemCommands extends Commands
     /**
      * @return bool
      */
+    public function clearSession(): bool
+    {
+        if ($this->debug == true) {
+            $msg = $this->color->stringColor("SESSION: Debug mode enabled! It is not possible to delete the sessions!", "yellow", "red", true);
+            print_r($msg);
+
+            die;
+        }
+
+        $this->dir = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "session" . DIRECTORY_SEPARATOR;
+
+        if (!is_dir($this->dir)) {
+            \mkdir($this->dir);
+        }
+
+        $directory = dir($this->dir);
+
+        while ($file = $directory->read()) {
+            if (($file != '.') && ($file != '..')) {
+                unlink($this->dir . $file);
+            }
+        }
+
+        $directory->close();
+
+        $msg = $this->color->stringColor("Sessions was cleared successfully!", "green", null, true);
+        print_r($msg);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
     public function clearCache(): bool
     {
         $this->dir_cache = [
@@ -239,6 +273,7 @@ class SystemCommands extends Commands
             "version",
             "show",
             "cache-clear",
+            "clear-session",
             "login",
             "remove-login",
             "forgot",
@@ -249,6 +284,7 @@ class SystemCommands extends Commands
             "Shows version of solital and components",
             "Lists all Vinci commands",
             "Clears the solital cache",
+            "Clears the solital sessions",
             "Create classes for login",
             "Removes the components created for login",
             "Create classes for forgot password",

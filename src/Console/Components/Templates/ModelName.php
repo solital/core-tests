@@ -2,7 +2,7 @@
 
 namespace Solital\Components\Model;
 
-use Solital\Components\Model\Model;
+use Solital\Core\Database\Create\Model;
 
 class NameDefault extends Model
 {

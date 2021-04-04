@@ -66,7 +66,7 @@ class ForgotController
             ]);
         } else {
             $this->message->new('login', 'The informed link has already expired!');
-            response()->redirect(url('login'));
+            response()->redirect(url('auth'));
         }
     }
 
@@ -93,10 +93,11 @@ class ForgotController
                     ->values($email, $pass)
                     ->register();
 
-                response()->redirect(url('login'));
+                $this->message->new('login', 'Password changed successfully!');
+                response()->redirect(url('auth'));
             }
         } else {
-            response()->redirect(url('login'));
+            response()->redirect(url('auth'));
         }
     }
 }

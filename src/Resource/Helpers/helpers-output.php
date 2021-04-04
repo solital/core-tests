@@ -71,12 +71,13 @@ function export($value): void
 
 /**
  * @param mixed $value
+ * @param int $constants
  * 
  * @return json
  */
-function encodeJSON($value)
+function encodeJSON($value, int $constants = JSON_UNESCAPED_UNICODE)
 {
-    $json = (new InputJson())->encode($value);
+    $json = (new InputJson($constants))->encode($value);
     return $json;
 }
 
