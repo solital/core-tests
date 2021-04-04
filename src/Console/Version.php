@@ -6,7 +6,7 @@ use Katrina\Katrina;
 
 class Version
 {
-    const SOLITAL_VERSION = "2.0.0-beta3";
+    const SOLITAL_VERSION = "2.0.0-beta4";
     const VINCI_VERSION = "2.0.0-beta";
 
     /**

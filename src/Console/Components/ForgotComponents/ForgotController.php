@@ -42,7 +42,7 @@ class ForgotController
             ->register();
 
         if ($res == true) {
-            $this->message->new('forgot', 'Invalid username!');
+            $this->message->new('forgot', 'Link sent to your email!');
             response()->redirect(url('forgot'));
         }
     }

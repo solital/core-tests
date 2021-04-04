@@ -92,8 +92,8 @@ class FileCommands extends Commands
         $dir_login_controller = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'LoginController.php';
         $dir_login_form = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-form.php';
         $dir_login_dashboard = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-dashboard.php';
-        $dir_login_header = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'header.php';
-        $dir_login_footer = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'footer.php';
+        $dir_login_header = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'header.php';
+        $dir_login_footer = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'footer.php';
         $dir_login_routers = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Components' . DIRECTORY_SEPARATOR . 'LoginComponents' . DIRECTORY_SEPARATOR . 'login-routers.php';
 
         $this->createFile($dir_login_controller, $this->dir_controller, 'LoginController.php');
