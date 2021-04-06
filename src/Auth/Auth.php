@@ -41,12 +41,12 @@ class Auth extends Reset
     /**
      * @var string
      */
-    protected static string $login_url;
+    protected static string $login_url = "/auth";
 
     /**
      * @var string
      */
-    protected static string $dashboard_url;
+    protected static string $dashboard_url = "/dashboard";
 
     /**
      * @param string $login_url
@@ -113,7 +113,7 @@ class Auth extends Reset
      * 
      * @return static
      */
-    public static function login(string $table): static
+    public static function login(string $table)
     {
         self::$type = 'login';
         self::$table_db = $table;
@@ -126,7 +126,7 @@ class Auth extends Reset
      * 
      * @return static
      */
-    public static function forgot(string $table): static
+    public static function forgot(string $table)
     {
         self::$type = 'forgot';
         self::$table_db = $table;

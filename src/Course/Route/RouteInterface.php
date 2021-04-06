@@ -206,4 +206,16 @@ interface RouteInterface
      * @return static
      */
     public function setMiddlewares(array $middlewares): self;
+
+       /**
+     * Get the value of controller_name
+     */ 
+    public function getControllerName();
+
+    /**
+     * Set the value of controller_name
+     *
+     * @return  self
+     */ 
+    public function setControllerName($controller_name);
 }

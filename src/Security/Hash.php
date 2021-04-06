@@ -53,6 +53,8 @@ class Hash
      * Decrypts a key
      * 
      * @param string $key
+     * 
+     * @return new static
      */
     public static function decrypt(string $key)
     {
@@ -68,13 +70,13 @@ class Hash
 
         self::$decoded = $decode;
 
-        return __CLASS__;
+        return new static();
     }
 
     /**
      * Checks the value of the encrypted key
      */
-    public static function value()
+    public function value()
     {
         $json = json_decode(self::$decoded, true);
 
@@ -85,7 +87,7 @@ class Hash
      * Checks if the key is still valid
      * @return bool
      */
-    public static function isValid(): bool
+    public function isValid(): bool
     {
         $json = json_decode(self::$decoded, true);
 

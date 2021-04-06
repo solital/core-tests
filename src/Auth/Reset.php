@@ -2,14 +2,13 @@
 
 namespace Solital\Core\Auth;
 
+use PDO;
 use Katrina\Connection\DB;
 use Solital\Core\Database\ORM;
 use Solital\Core\Security\Hash;
-use Katrina\Exception\Exception;
-use PDO;
 use Solital\Core\Resource\Mail\NativeMail;
-use Solital\Core\Resource\Validation\Valid;
 use Solital\Core\Resource\Mail\PHPMailerClass;
+use Solital\Core\Resource\Validation\Valid;
 
 abstract class Reset
 {
@@ -57,8 +56,6 @@ abstract class Reset
      * @var string
      */
     protected string $name_recipient = "User";
-
-    #private static string 
 
     /**
      * @var string

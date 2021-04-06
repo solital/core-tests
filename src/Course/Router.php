@@ -2,6 +2,7 @@
 
 namespace Solital\Core\Course;
 
+use Solital\Core\Console\Command\SystemCommandsCourse;
 use Solital\Core\Http\Uri;
 use Solital\Core\Http\Request;
 use Solital\Core\Course\Route\RouteInterface;
@@ -135,6 +136,11 @@ class Router
     private $url;
 
     /**
+     * @var bool
+     */
+    private bool $send_console;
+
+    /**
      * Router constructor.
      */
     public function __construct()
@@ -202,8 +208,8 @@ class Router
      */
     protected function renderAndProcess(RouteInterface $route): void
     {
-
         $this->isProcessingRoute = true;
+
         $route->renderRoute($this->request, $this);
         $this->isProcessingRoute = false;
 
@@ -243,7 +249,6 @@ class Router
 
         /* @var $route RouteInterface */
         foreach ($routes as $route) {
-
             $this->debug('Processing route "%s"', \get_class($route));
 
             if ($group !== null) {
@@ -254,8 +259,16 @@ class Router
             /* @var $route GroupRouteInterface */
             if ($route instanceof GroupRouteInterface) {
 
-                if ($route->matchRoute($url, $this->request) === true) {
+                if ($this->send_console == true) {
+                    $values[] = [
+                        'url' => ($route->getPrefix() . "/(GroupRoute)"),
+                        'name' => '',
+                        'method' => 'GET',
+                        'controller' => 'Closure'
+                    ];
+                }
 
+                if ($route->matchRoute($url, $this->request) === true) {
                     /* Add exception handlers */
                     if (\count($route->getExceptionHandlers()) !== 0) {
                         /** @noinspection AdditionOperationOnArraysInspection */
@@ -283,6 +296,19 @@ class Router
 
             $this->url[] = $route->url;
             $routeDuplicate = array_unique(array_diff_assoc($this->url, array_unique($this->url)));
+
+            if ($this->send_console == true) {
+                $values[] = [
+                    'url' => ($route->url ?? ''),
+                    'name' => $route->getName(),
+                    'method' => strtoupper(implode("|", $route->getRequestMethods())),
+                    'controller' => $route->getControllerName()
+                ];
+            }
+        }
+
+        if ($this->send_console == true) {
+            $this->sendToConsole($values);
         }
 
         if (isset($routeDuplicate)) {
@@ -344,8 +370,10 @@ class Router
      * @throws HttpException
      * @throws \Exception
      */
-    public function start()
+    public function start(bool $send_console = false)
     {
+        $this->send_console = $send_console;
+
         $this->debug('Router starting');
 
         $this->fireEvents(EventHandler::EVENT_INIT);
@@ -444,7 +472,7 @@ class Router
         }
 
         if ($methodNotAllowed === true) {
-            return NotFoundHttpException::alertMessage(403, "Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", "This route was not defined with method ". strtoupper($this->request->getMethod()) .", but with another method.");
+            return NotFoundHttpException::alertMessage(403, "Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", "This route was not defined with method " . strtoupper($this->request->getMethod()) . ", but with another method.");
         }
 
         if (\count($this->request->getLoadedRoutes()) === 0) {
@@ -452,7 +480,7 @@ class Router
             $rewriteUrl = $this->request->getRewriteUrl();
 
             if ($rewriteUrl !== null) {
-                return NotFoundHttpException::alertMessage(404, "Route '" . $rewriteUrl . "' not found (rewrite from: '". $this->request->getUri()->getPath() . "')");
+                return NotFoundHttpException::alertMessage(404, "Route '" . $rewriteUrl . "' not found (rewrite from: '" . $this->request->getUri()->getPath() . "')");
             } else {
                 return NotFoundHttpException::alertMessage(404, "Route '" . $this->request->getUri()->getPath() . "' not found", "Check if the given route exists in the 'routers.php' file or another route file.");
             }
@@ -890,6 +918,16 @@ class Router
         foreach ($this->eventHandlers as $eventHandler) {
             $eventHandler->fireEvents($this, $name, $arguments);
         }
+    }
+
+    /**
+     * @param mixed $values
+     * 
+     * @return void
+     */
+    public function sendToConsole($values): void
+    {
+        SystemCommandsCourse::setRoutes($values)->getRoutes();
     }
 
     /**

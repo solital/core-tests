@@ -21,7 +21,7 @@ class Table
      * @access protected
      *
      **/
-    protected $itemName = 'Row';
+    protected string $itemName = 'Row';
 
     /**
      * Table fields
@@ -30,7 +30,7 @@ class Table
      * @access protected
      *
      **/
-    protected $fields = array();
+    protected array $fields = [];
 
     /**
      * Show column headers?
@@ -39,7 +39,7 @@ class Table
      * @access protected
      *
      **/
-    protected $showHeaders = true;
+    protected bool $showHeaders = true;
 
     /**
      * Use colors?
@@ -48,7 +48,7 @@ class Table
      * @access protected
      *
      **/
-    protected $useColors = true;
+    protected bool $useColors = true;
 
     /**
      * Table Border Color
@@ -57,7 +57,7 @@ class Table
      * @access protected
      *
      **/
-    protected $tableColor = 'reset';
+    protected string $tableColor = 'reset';
 
     /**
      * Header Color
@@ -66,7 +66,7 @@ class Table
      * @access protected
      *
      **/
-    protected $headerColor = 'reset';
+    protected string $headerColor = 'reset';
 
     /**
      * Colors, will be populated after instantiation
@@ -75,7 +75,7 @@ class Table
      * @access protected
      *
      **/
-    protected $colors = array();
+    protected array $colors = [];
 
     /**
      * Border Characters
@@ -84,7 +84,7 @@ class Table
      * @access protected
      *
      **/
-    protected $chars = array(
+    protected array $chars = [
         'top'          => '═',
         'top-mid'      => '╤',
         'top-left'     => '╔',
@@ -100,8 +100,7 @@ class Table
         'right'        => '║',
         'right-mid'    => '╢',
         'middle'       => '│ ',
-    );
-
+    ];
 
     /**
      * Constructor
@@ -110,13 +109,32 @@ class Table
      * @param  string $itemName
      * @param  bool   $useColors
      */
-    public function __construct($itemName = 'Row', $useColors = true)
+    public function __construct(string $itemName = 'Row', bool $useColors = true, bool $second_chars = false)
     {
         $this->setItemName($itemName);
         $this->setUseColors($useColors);
         $this->defineColors();
-    }
 
+        if ($second_chars == true) {
+            $this->setChars([
+                'top'          => '-',
+                'top-mid'      => '+',
+                'top-left'     => '+',
+                'top-right'    => '+',
+                'bottom'       => '-',
+                'bottom-mid'   => '+',
+                'bottom-left'  => '+',
+                'bottom-right' => '+',
+                'left'         => '|',
+                'left-mid'     => '+',
+                'mid'          => '-',
+                'mid-mid'      => '+',
+                'right'        => '|',
+                'right-mid'    => '+',
+                'middle'       => '| ',
+            ]);
+        }
+    }
 
     /**
      * setUseColors
@@ -541,7 +559,6 @@ class Table
         }
         return $this->colors['reset'];
     }
-
 
     /**
      * display

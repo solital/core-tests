@@ -2,6 +2,7 @@
 
 namespace Solital\Core\Console\Command;
 
+use Solital\CustomConsole;
 use Solital\Core\Console\Version;
 use Solital\Core\Console\Style\Table;
 use Solital\Core\Console\Style\Colors;
@@ -38,6 +39,7 @@ class SystemCommands extends Commands
 
         $this->color = new Colors();
         $this->table = new Table();
+        #$this->table = new Table('', true, true);
     }
 
     /**
@@ -175,7 +177,22 @@ class SystemCommands extends Commands
 
         $this->defaultRegisteredCommands();
 
+        $custom_commands_title = $this->color->stringColor("Custom Commands:\n", "yellow", null, true);
+        print_r($custom_commands_title);
+
+        $this->defaultRegisteredCustomCommands();
+
         return true;
+    }
+
+    public function routes()
+    {
+        if (!isset($_SERVER["REQUEST_METHOD"]) && !isset($_SERVER["REQUEST_URI"])) {
+            $_SERVER["REQUEST_METHOD"] = "GET";
+            $_SERVER["REQUEST_URI"] = "/";
+        }
+
+        SystemCommandsCourse::start(true);
     }
 
     /**
@@ -272,6 +289,7 @@ class SystemCommands extends Commands
         $cmd = [
             "version",
             "show",
+            "routes",
             "cache-clear",
             "clear-session",
             "login",
@@ -283,6 +301,7 @@ class SystemCommands extends Commands
         $desc = [
             "Shows version of solital and components",
             "Lists all Vinci commands",
+            "Lists all routers",
             "Clears the solital cache",
             "Clears the solital sessions",
             "Create classes for login",
@@ -315,6 +334,18 @@ class SystemCommands extends Commands
     {
         $values = $this->commandsRegistered();
         $commands = $this->register()->command($values['cmd'], $values['desc']);
+
+        $this->consoleTable($commands);
+    }
+
+    /**
+     * @return array
+     */
+    public function defaultRegisteredCustomCommands()
+    {
+        $commands = (new CustomConsole())->execute();
+        $msg = $this->color->stringColor("The custom commands below are listed along with the methods that will be executed. \n", "white", null, true);
+        print_r($msg);
 
         $this->consoleTable($commands);
     }

@@ -56,7 +56,7 @@ class Course extends NotFoundHttpException
      * @throws HttpException
      * @throws \Exception
      */
-    public static function start(): void
+    public static function start(bool $send_console = false): void
     {
         if (!defined('DB_CONFIG')) {
             define('DB_CONFIG', [
@@ -69,7 +69,7 @@ class Course extends NotFoundHttpException
             ]);
         }
 
-        echo static::router()->start();
+        echo static::router()->start($send_console);
     }
 
     /**
@@ -364,6 +364,7 @@ class Course extends NotFoundHttpException
         http_response_code(200);
         $route = new RouteUrl(static::$basePath . $url, $callback);
         $route->setRequestMethods($requestMethods);
+        $route->setControllerName($callback);
         $route = static::addDefaultNamespace($route);
 
         if ($settings !== null) {

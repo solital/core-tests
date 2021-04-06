@@ -18,7 +18,7 @@ interface GroupRouteInterface extends RouteInterface
     /**
      * Add exception handler
      *
-     * @param IExceptionHandler|string $handler
+     * @param ExceptionHandlerInterface|string $handler
      * @return static
      */
     public function addExceptionHandler($handler): self;

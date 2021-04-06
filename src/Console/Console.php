@@ -142,6 +142,7 @@ class Console
             'remove-css' => 'css:file_name',
             'version' => 'version',
             'show' => 'show',
+            'routes' => 'routes',
             'cache-clear' => 'clearCache',
             'clear-session' => 'clearSession',
             'login' => 'login',

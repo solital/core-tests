@@ -14,6 +14,7 @@ class RouteUrl extends LoadableRoute
     {
         $this->setUri($url);
         $this->setCallback($callback);
+        $this->setControllerName($callback);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Solital\Core\Course\Route;
 
+use Closure;
 use Solital\Core\Http\Middleware\MiddlewareInterface;
 use Solital\Core\Http\Request;
 use Solital\Core\Exceptions\NotFoundHttpException;
@@ -53,6 +54,7 @@ abstract class Route implements RouteInterface
     protected $parent;
     protected $callback;
     protected $defaultNamespace;
+    protected $controller_name;
 
     /* Default options */
     protected $namespace;
@@ -98,12 +100,13 @@ abstract class Route implements RouteInterface
             $router->debug('Executing callback');
 
             /* When the callback is a function */
-
             return $router->getClassLoader()->loadClosure($callback, $parameters);
         }
 
         /* When the callback is a class + method */
         $controller = explode('@', $callback);
+
+        $this->setControllerName($controller);
 
         $namespace = $this->getNamespace();
 
@@ -127,6 +130,13 @@ abstract class Route implements RouteInterface
         return \call_user_func_array([$class, $method], $parameters);
     }
 
+    /**
+     * @param mixed $route
+     * @param mixed $url
+     * @param null $parameterRegex
+     * 
+     * @return mixed
+     */
     protected function parseParameters($route, $url, $parameterRegex = null)
     {
         $regex = (strpos($route, $this->paramModifiers[0]) === false) ? null :
@@ -593,5 +603,29 @@ abstract class Route implements RouteInterface
     public function getDefaultParameterRegex(): string
     {
         return $this->defaultParameterRegex;
+    }
+
+    /**
+     * Get the value of controller_name
+     */ 
+    public function getControllerName()
+    {
+        return $this->controller_name;
+    }
+
+    /**
+     * Set the value of controller_name
+     *
+     * @return  self
+     */ 
+    public function setControllerName($controller_name)
+    {
+        if ($controller_name instanceof Closure) {
+            $controller_name = "Closure";
+        }
+
+        $this->controller_name = $controller_name;
+
+        return $this;
     }
 }

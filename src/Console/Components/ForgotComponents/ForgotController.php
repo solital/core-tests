@@ -54,10 +54,10 @@ class ForgotController
      */
     public function change($hash): void
     {
-        $res = Hash::decrypt($hash)::isValid();
+        $res = Hash::decrypt($hash)->isValid();
 
         if ($res == true) {
-            $email = Hash::decrypt($hash)::value();
+            $email = Hash::decrypt($hash)->value();
 
             Wolf::loadView('auth.change-pass-form', [
                 'title' => 'Change Password',
@@ -77,8 +77,8 @@ class ForgotController
      */
     public function changePost($hash): void
     {
-        $res = Hash::decrypt($hash)::isValid();
-        $email = Hash::decrypt($hash)::value();
+        $res = Hash::decrypt($hash)->isValid();
+        $email = Hash::decrypt($hash)->value();
 
         if ($res == true) {
             $pass = input()->post('inputPass')->getValue();
