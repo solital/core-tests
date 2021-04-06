@@ -39,7 +39,7 @@ class RouteResource extends LoadableRoute implements ControllerRouteInterface
      * @var array
      */
     protected array $names = [];
-    
+
     /**
      * @var mixed
      */

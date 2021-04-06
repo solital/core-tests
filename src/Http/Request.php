@@ -28,13 +28,13 @@ class Request implements RequestInterface
      * Server headers
      * @var array
      */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * Request host
      * @var string
      */
-    protected $host;
+    protected string $host;
 
     /**
      * Current request url
@@ -47,12 +47,6 @@ class Request implements RequestInterface
      * @var Uri
      */
     protected $scheme;
-
-    /**
-     * Request method
-     * @var string
-     */
-    #protected $method = '';
 
     /**
      * Input handler
@@ -80,19 +74,19 @@ class Request implements RequestInterface
     /**
      * @var array
      */
-    protected $loadedRoutes = [];
+    protected array $loadedRoutes = [];
 
     /**
      * @var string
      */
-    private $server;
+    private string $server;
 
     /**
      * List of request body parsers (e.g., url-encoded, JSON, XML, multipart)
      *
      * @var callable[]
      */
-    protected $bodyParsers = [];
+    protected array $bodyParsers = [];
 
     /**
      * Request constructor.

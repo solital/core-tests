@@ -7,7 +7,6 @@ use Solital\Core\Exceptions\InvalidArgumentHttpException;
 
 class Cache implements CacheInterface
 {
-
     /**
      * @var string
      */

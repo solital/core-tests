@@ -14,12 +14,12 @@ abstract class LoadableRoute extends Route implements LoadableRouteInterface
     /**
      * @var string
      */
-    public $url;
+    public string $url;
 
     /**
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var mixed

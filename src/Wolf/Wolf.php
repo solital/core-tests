@@ -9,7 +9,7 @@ use Solital\Core\Exceptions\NotFoundException;
 class Wolf extends WolfCache
 {
     use WolfMinifyTrait;
-    
+
     /**
      * @var string
      */

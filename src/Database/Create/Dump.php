@@ -184,7 +184,7 @@ class Dump
         $pass = $this->getPassword() ? "-p " . $this->getPassword() : "";
 
         if ($this->getDrive() == "mysql") {
-            $cmd = "{$exec} -u {$this->getUsername()} " . $pass . " {$this->getDatabase()} > " . $path . DIRECTORY_SEPARATOR . "dump-".date('Ymd-His').".sql";
+            $cmd = "{$exec} -u {$this->getUsername()} " . $pass . " {$this->getDatabase()} > " . $path . DIRECTORY_SEPARATOR . "dump-" . date('Ymd-His') . ".sql";
         } elseif ($this->getDrive() == "pg") {
             $cmd = "{$exec} {$this->getDatabase()} > {$this->path_bkp}";
         } else {

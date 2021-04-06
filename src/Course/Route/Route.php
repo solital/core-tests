@@ -69,6 +69,7 @@ abstract class Route implements RouteInterface
      *
      * @param Request $request
      * @param Router $router
+     * 
      * @return string|null
      * @throws NotFoundHttpException
      */
@@ -607,7 +608,7 @@ abstract class Route implements RouteInterface
 
     /**
      * Get the value of controller_name
-     */ 
+     */
     public function getControllerName()
     {
         return $this->controller_name;
@@ -617,7 +618,7 @@ abstract class Route implements RouteInterface
      * Set the value of controller_name
      *
      * @return  self
-     */ 
+     */
     public function setControllerName($controller_name)
     {
         if ($controller_name instanceof Closure) {

@@ -9,7 +9,7 @@ class CookieTokenProvider implements TokenProviderInterface
 {
     public const CSRF_KEY = 'CSRF-TOKEN';
     private const CSRF_VALIDATE = 'CSRF-VALIDATE';
-    
+
     /**
      * @var mixed
      */
@@ -76,5 +76,4 @@ class CookieTokenProvider implements TokenProviderInterface
     {
         return isset($_SESSION[static::CSRF_KEY]);
     }
-
 }

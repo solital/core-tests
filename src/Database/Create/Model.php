@@ -27,7 +27,7 @@ abstract class Model
     protected function instance(): ORM
     {
         $katrina = new ORM($this->table, $this->primary_key, $this->columns);
-        
+
         return $katrina;
     }
 }

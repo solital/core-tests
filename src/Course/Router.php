@@ -31,13 +31,6 @@ class Router
     protected $request;
 
     /**
-     * Current request
-     * 
-     * @var Uri
-     */
-    private $uri;
-
-    /**
      * Defines if a route is currently being processed.
      * 
      * @var bool
@@ -49,7 +42,7 @@ class Router
      * 
      * @var array
      */
-    protected $routes = [];
+    protected array $routes = [];
 
     /**
      * List of processed routes
@@ -100,7 +93,7 @@ class Router
      * 
      * @var bool
      */
-    protected $debugEnabled = false;
+    protected bool $debugEnabled = false;
 
     /**
      * The start time used when debugging is enabled
@@ -146,7 +139,6 @@ class Router
     public function __construct()
     {
         $this->reset();
-        $this->uri = new Uri();
     }
 
     /**

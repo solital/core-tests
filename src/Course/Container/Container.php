@@ -12,16 +12,16 @@ class Container implements ContainerInterface
     /**
      * Our functions that are associated with a particular dependency.
      * */
-    private $functions = [];
+    private array $functions = [];
 
     /**
      * Our arguments that will be passed to our functions when they are first called.
      */
-    private $arguments = [];
+    private array $arguments = [];
     /**
      * Our loaded dependencies that are retrieved through get()
      */
-    private $loaded_dependencies = [];
+    private array $loaded_dependencies = [];
 
     /**
      * Sets a dependency function for an identifier that returns the dependency.

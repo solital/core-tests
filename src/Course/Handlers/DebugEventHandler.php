@@ -7,7 +7,6 @@ use Solital\Core\Course\Router;
 
 class DebugEventHandler implements EventHandler
 {
-
     /**
      * Debug callback
      * @var \Closure
@@ -58,5 +57,4 @@ class DebugEventHandler implements EventHandler
     {
         $this->callback = $event;
     }
-
 }

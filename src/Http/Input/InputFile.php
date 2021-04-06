@@ -10,7 +10,7 @@ class InputFile implements InputItemInterface
      * @var string
      */
     public string $index;
-    
+
     /**
      * @var string
      */
@@ -19,27 +19,27 @@ class InputFile implements InputItemInterface
     /**
      * @var string
      */
-    public $filename;
+    public string $filename;
 
     /**
      * @var int
      */
     public int $size;
-    
+
     /**
      * @var string
      */
     public string $type;
-    
+
     /**
      * @var mixed
      */
     public $errors;
-    
+
     /**
      * @var string
      */
-    public $tmpName;
+    public string $tmpName;
 
     /**
      * @param string $index
@@ -47,7 +47,6 @@ class InputFile implements InputItemInterface
     public function __construct(string $index)
     {
         $this->index = $index;
-
         $this->errors = 0;
 
         // Make the name human friendly, by replace _ with space
@@ -83,7 +82,6 @@ class InputFile implements InputItemInterface
             ->setType($values['type'])
             ->setTmpName($values['tmp_name'])
             ->setFilename($values['name']);
-
     }
 
     /**
@@ -324,5 +322,4 @@ class InputFile implements InputItemInterface
             'filename' => $this->filename,
         ];
     }
-
 }

@@ -94,5 +94,4 @@ class InputItem implements InputItemInterface
     {
         return (string)$this->value;
     }
-
 }

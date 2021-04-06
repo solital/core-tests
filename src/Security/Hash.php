@@ -59,7 +59,7 @@ class Hash
     public static function decrypt(string $key)
     {
         self::checkSecrets();
-        
+
         if ($key == null || !isset($key)) {
             return null;
         }

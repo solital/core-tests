@@ -6,7 +6,6 @@ use Solital\Core\Course\Router;
 
 interface EventHandlerInterface
 {
-
     /**
      * Get events.
      *

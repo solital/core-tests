@@ -15,14 +15,14 @@ class Response implements ResponseInterface
      *
      * @var string
      */
-    private $statusCode;
+    private string $statusCode;
 
     /**
      * Reason phrase
      *
      * @var string
      */
-    private $header;
+    private string $header;
 
     /**
      * Reason phrase
@@ -36,7 +36,7 @@ class Response implements ResponseInterface
      *
      * @var string
      */
-    protected $request;
+    protected string $request;
 
     /**
      * Status codes and reason phrases

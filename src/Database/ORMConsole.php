@@ -8,7 +8,7 @@ use Solital\Core\Console\Command\DatabaseCommand;
 use Solital\Core\Console\Command\CustomConsoleInterface;
 
 class ORMConsole extends CustomCommand implements CustomConsoleInterface
-{   
+{
     /**
      * @return array
      */

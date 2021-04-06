@@ -17,14 +17,14 @@ trait RequestTrait
      *
      * @var string
      */
-    private $requestTarget;
+    private string $requestTarget;
 
     /**
      * THe HTTP request method.
      *
      * @var string
      */
-    protected $method = '';
+    protected string $method = '';
 
     /**
      * Available valid HTTP methods.

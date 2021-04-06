@@ -17,7 +17,7 @@ class UploadedFile implements UploadedFileInterface
      *
      * @var string
      */
-    private $file;
+    private string $file;
 
     /**
      * The stream instance.
@@ -31,14 +31,14 @@ class UploadedFile implements UploadedFileInterface
      *
      * @var int
      */
-    private $size;
+    private int $size;
 
     /**
      * The PHP UPLOAD_ERROR_* constant provided by the uploader.
      *
      * @var int
      */
-    private $error;
+    private int $error;
 
     /**
      * The client-provided file name.
@@ -87,8 +87,7 @@ class UploadedFile implements UploadedFileInterface
         string $clientFilename = null,
         string $clientMediaType = null,
         bool $sapi = false
-    )
-    {
+    ) {
         $this->setFileAndStream($file);
         $this->size = $size;
 
@@ -121,7 +120,8 @@ class UploadedFile implements UploadedFileInterface
             $this->file = $file->getMetadata('uri');
             $this->stream = $file;
         } else {
-            InvalidArgumentHttpException::invalidExceptionMessage(400, 
+            InvalidArgumentHttpException::invalidExceptionMessage(
+                400,
                 'The file must be a string, resource or instance of Psr\Http\Message\StreamInterface'
             );
         }
@@ -132,7 +132,7 @@ class UploadedFile implements UploadedFileInterface
      *
      * @throws \RuntimeException in cases when no stream is available or can be created.
      */
-    public function getStream() : StreamInterface
+    public function getStream(): StreamInterface
     {
         if ($this->moved) {
             RuntimeException::exceptionMessage('Cannot retrieve stream as it was moved');
@@ -150,13 +150,13 @@ class UploadedFile implements UploadedFileInterface
      */
     public function moveTo($targetPath)
     {
-        if (empty($targetPath) || ! is_string($targetPath)) {
+        if (empty($targetPath) || !is_string($targetPath)) {
             InvalidArgumentHttpException::invalidExceptionMessage(400, 'The target path must be a non-empty string');
         }
 
         $targetIsStream = strpos($targetPath, '://') > 0;
 
-        if (! $targetIsStream && ! is_writable(dirname($targetPath))) {
+        if (!$targetIsStream && !is_writable(dirname($targetPath))) {
             InvalidArgumentHttpException::invalidExceptionMessage(400, 'The upload target path ' . $targetPath . ' is not writable');
         }
 
@@ -165,18 +165,18 @@ class UploadedFile implements UploadedFileInterface
         }
 
         if ($targetIsStream) {
-            if (! copy($this->file, $targetPath)) {
+            if (!copy($this->file, $targetPath)) {
                 RuntimeException::exceptionMessage('The file ' . $this->file . ' could not be moved to ' . $targetPath);
             }
 
-            if (! unlink($this->file)) {
+            if (!unlink($this->file)) {
                 RuntimeException::exceptionMessage('The file ' . $this->file . ' could not be removed');
             }
         } elseif ($this->sapi) {
-            if (! move_uploaded_file($this->file, $targetPath)) {
+            if (!move_uploaded_file($this->file, $targetPath)) {
                 RuntimeException::exceptionMessage('The file ' . $this->file . '"could not be moved to ' . $targetPath);
             }
-        } elseif (! rename($this->file, $targetPath)) {
+        } elseif (!rename($this->file, $targetPath)) {
             RuntimeException::exceptionMessage('The file ' . $this->file . ' could not be moved to ' . $targetPath);
         }
 
@@ -194,7 +194,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * @return int One of PHP's UPLOAD_ERR_XXX constants.
      */
-    public function getError() : int
+    public function getError(): int
     {
         return $this->error;
     }

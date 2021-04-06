@@ -18,12 +18,12 @@ class RouteController extends LoadableRoute implements ControllerRouteInterface
      * @var mixed
      */
     protected $controller;
-    
+
     /**
      * @var string
      */
     protected string $method;
-    
+
     /**
      * @var array
      */

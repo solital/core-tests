@@ -10,9 +10,11 @@ class PHPMailerClass
      * @var PHPMailer
      */
     private $mail;
-    
+
     /**
      * __construct
+     * 
+     * @param bool $exceptions
      *
      * @return void
      */
@@ -39,6 +41,7 @@ class PHPMailerClass
      * @param string $senderName
      * @param string $recipient
      * @param string $recipientName
+     * 
      * @return PHPMailerClass
      */
     public function add(string $sender, string $senderName, string $recipient, string $recipientName): PHPMailerClass
@@ -48,12 +51,13 @@ class PHPMailerClass
 
         return $this;
     }
-    
+
     /**
      * attach
      *
      * @param string $filePath
      * @param string $fileName
+     * 
      * @return PHPMailerClass
      */
     public function attach(string $filePath, string $fileName = ''): PHPMailerClass
@@ -62,19 +66,20 @@ class PHPMailerClass
 
         return $this;
     }
-    
+
     /**
      * embeddedImage
      *
      * @param string $imagePath
      * @param string $cid
      * @param string $imageName
+     * 
      * @return PHPMailerClass
      */
     public function embeddedImage(string $imagePath, string $cid, string $imageName = ''): PHPMailerClass
     {
         $this->mail->addEmbeddedImage($imagePath, $cid, $imageName);
-        
+
         return $this;
     }
 
@@ -84,6 +89,7 @@ class PHPMailerClass
      * @param string $subject
      * @param string $body
      * @param string $altbody
+     * 
      * @return bool
      */
     public function sendEmail(string $subject, string $body, string $altbody = ""): bool
@@ -101,7 +107,7 @@ class PHPMailerClass
             return false;
         }
     }
-    
+
     /**
      * error
      *

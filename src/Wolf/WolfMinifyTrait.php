@@ -28,7 +28,7 @@ trait WolfMinifyTrait
     public static function minify(bool $mode = true): self
     {
         self::$minify_mode = $mode;
-        
+
         return new static();
     }
 

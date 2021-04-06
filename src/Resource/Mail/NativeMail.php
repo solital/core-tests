@@ -8,30 +8,35 @@ class NativeMail extends PHPMailerClass
 {
     /**
      * Email sender
+     * 
      * @var string
      */
     private static string $sender;
 
     /**
      * Email recipient
+     * 
      * @var string
      */
     private static string $recipient;
 
     /**
      * Email subject
+     * 
      * @var string
      */
     private static string $subject;
 
     /**
      * Email message
+     * 
      * @var string
      */
     private static string $message;
 
     /**
      * Send email
+     * 
      * @param string $sender
      * @param string $recipient
      * @param string $subject
@@ -40,8 +45,10 @@ class NativeMail extends PHPMailerClass
      * @param string $type
      * @param string $charset
      * @param string $priority
+     * 
+     * @return bool
      */
-    public static function send(string $sender, string $recipient, string $subject, string $message, string $reply_to = null, string $type = "text/plan", string $charset = "UTF-8", int $priority = 3)
+    public static function send(string $sender, string $recipient, string $subject, string $message, string $reply_to = null, string $type = "text/plan", string $charset = "UTF-8", int $priority = 3): bool
     {
         $validateSender = Valid::email($sender);
         $validateRecipient = Valid::email($recipient);

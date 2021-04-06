@@ -76,7 +76,6 @@ class BaseCsrfVerifier implements MiddlewareInterface
             if ($this->tokenProvider->validate() === false) {
                 TokenMismatchException::alertMessage(404, "Invalid CSRF-token");
             }
-
         }
     }
 
@@ -98,5 +97,4 @@ class BaseCsrfVerifier implements MiddlewareInterface
     {
         $this->tokenProvider = $provider;
     }
-
 }

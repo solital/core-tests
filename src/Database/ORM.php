@@ -14,32 +14,32 @@ class ORM extends Katrina
      * @var string
      */
     private string $drive;
-    
+
     /**
      * @var string
      */
     private string $host;
-    
+
     /**
      * @var string
      */
     private string $name;
-    
+
     /**
      * @var string
      */
     private string $user;
-    
+
     /**
      * @var string
      */
     private string $pass;
-    
+
     /**
      * @var string
      */
     private string $sqlite;
-    
+
     /**
      * @param string $table
      * @param string $primaryKey
@@ -75,7 +75,7 @@ class ORM extends Katrina
                 'SQLITE_DIR' => $this->sqlite
             ]);
         }
-        
+
         parent::__construct($table, $primaryKey, $columns);
     }
 

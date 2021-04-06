@@ -10,20 +10,19 @@ use Solital\Core\Exceptions\InvalidArgumentHttpException;
 
 trait MessageTrait
 {
-
     /**
      * The HTTP protocol version.
      *
      * @var string
      */
-    private $protocolVersion = '1.1';
+    private string $protocolVersion = '1.1';
 
     /**
      * Available valid HTTP protocol versions.
      *
      * @var array
      */
-    private static $validProtocolVersions = [
+    private static array $validProtocolVersions = [
         '1.0',
         '1.1',
         '2.0',
@@ -34,14 +33,14 @@ trait MessageTrait
      *
      * @var array
      */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * The normalized HTTP header names.
      *
      * @var array
      */
-    private $headerNames = [];
+    private array $headerNames = [];
 
     /**
      * The stream instance.

@@ -49,5 +49,4 @@ class RouteUrl extends LoadableRoute
 
         return true;
     }
-
 }
