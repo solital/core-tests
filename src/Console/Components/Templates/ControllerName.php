@@ -2,8 +2,18 @@
 
 namespace Solital\Components\Controller;
 
-class NameDefault
+use Solital\Components\Controller\Controller;
+
+class NameDefault extends Controller
 {
+    /**
+     * Construct
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * @return void
      */

@@ -144,7 +144,7 @@ class Console
             'show' => 'show',
             'routes' => 'routes',
             'cache-clear' => 'clearCache',
-            'clear-session' => 'clearSession',
+            'session-clear' => 'clearSession',
             'login' => 'login',
             'remove-login' => 'removeLogin',
             'forgot' => 'forgot',

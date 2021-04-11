@@ -291,7 +291,7 @@ class SystemCommands extends Commands
             "show",
             "routes",
             "cache-clear",
-            "clear-session",
+            "session-clear",
             "login",
             "remove-login",
             "forgot",

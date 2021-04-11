@@ -2,20 +2,21 @@
 
 namespace Solital\Components\Controller\Auth;
 
+use Solital\Components\Controller\Controller;
 use Solital\Core\Auth\Auth;
 use Solital\Core\Wolf\Wolf;
 use Solital\Core\Security\Hash;
-use Solital\Core\Resource\Message;
 
-class ForgotController
+class ForgotController extends Controller
 {
     /**
      * Construct
      */
     public function __construct()
     {
+        parent::__construct();
+
         Auth::defineUrl(url('auth'), url('dashboard'));
-        $this->message = new Message();
     }
 
     /**

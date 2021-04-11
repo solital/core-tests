@@ -10,23 +10,23 @@ use Solital\Core\Exceptions\InvalidArgumentHttpException;
 class Uri implements \JsonSerializable, UriInterface
 {
     /**
-     * @var string
+     * @var null|string
      */
-    private string $originalUrl;
+    private $originalUrl;
 
     /**
      * The URI user info.
      *
-     * @var string
+     * @var null|string
      */
-    private string $userInfo;
+    private $userInfo;
 
     /**
      * The URI scheme without "://" suffix.
      *
-     * @var string
+     * @var null|string
      */
-    private string $scheme;
+    private $scheme;
 
     /**
      * The URI host.
@@ -45,23 +45,23 @@ class Uri implements \JsonSerializable, UriInterface
     /**
      * The URI username.
      *
-     * @var string
+     * @var null|string
      */
-    private string $username;
+    private $username;
 
     /**
      * The URI password.
      *
-     * @var string
+     * @var null|string
      */
-    private string $password;
+    private $password;
 
     /**
      * The URI path.
      *
-     * @var string
+     * @var null|string
      */
-    private string $path;
+    private $path;
 
     /**
      * Params.
@@ -72,16 +72,16 @@ class Uri implements \JsonSerializable, UriInterface
 
     /** The URI fragment.
      *
-     * @var string
+     * @var null|string
      */
-    private string $fragment;
+    private $fragment;
 
     /**
      * The URI query.
      *
-     * @var string
+     * @var null|string
      */
-    private string $query;
+    private $query;
 
     /**
      * Url constructor.

@@ -17,7 +17,7 @@ trait RequestTrait
      *
      * @var string
      */
-    private string $requestTarget;
+    private $requestTarget;
 
     /**
      * THe HTTP request method.

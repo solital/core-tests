@@ -38,9 +38,11 @@ class Commands
     private string $template;
 
     /**
-     * @var string
+     * @var array
      */
-    private string $router_name;
+    private array $system_files = [
+        'Controller.php'
+    ];
 
     /**
      * @var string
@@ -168,13 +170,21 @@ class Commands
         $file = $this->dir . $this->resource;
 
         if (is_file($file)) {
-            unlink($file);
+            if (in_array($this->resource, $this->system_files)) {
+                $msg = $this->color->stringColor("Error: system component cannot be deleted!", "yellow", "red", true);
 
-            $msg = $this->color->stringColor("File removed successfully!", "green", null, true);
+                print_r($msg);
 
-            print_r($msg);
+                return false;
+            } else {
+                unlink($file);
 
-            return true;
+                $msg = $this->color->stringColor("Component removed successfully!", "green", null, true);
+
+                print_r($msg);
+
+                return true;
+            }
         }
 
         $msg = $this->color->stringColor("Error: the file could not be removed!", "yellow", "red", true);

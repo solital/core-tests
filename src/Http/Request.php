@@ -34,7 +34,7 @@ class Request implements RequestInterface
      * Request host
      * @var string
      */
-    protected string $host;
+    protected $host;
 
     /**
      * Current request url
@@ -58,7 +58,7 @@ class Request implements RequestInterface
      * Defines if request has pending rewrite
      * @var bool
      */
-    protected $hasPendingRewrite = false;
+    protected bool $hasPendingRewrite = false;
 
     /**
      * @var LoadableRouteInterface|null
@@ -84,7 +84,7 @@ class Request implements RequestInterface
     /**
      * List of request body parsers (e.g., url-encoded, JSON, XML, multipart)
      *
-     * @var callable[]
+     * @var array
      */
     protected array $bodyParsers = [];
 
@@ -121,6 +121,9 @@ class Request implements RequestInterface
         $this->method = strtolower($this->inputHandler->value('_method', $method_server));
     }
 
+    /**
+     * @return bool
+     */
     public function isSecure(): bool
     {
         return $this->getHeader('http-x-forwarded-proto') === 'https' || $this->getHeader('https') !== null || $this->getHeader('server-port') === 443;
@@ -446,6 +449,9 @@ class Request implements RequestInterface
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getParamsInput(): ?array
     {
         $body = file_get_contents('php://input');
@@ -453,6 +459,11 @@ class Request implements RequestInterface
         return $json;
     }
 
+    /**
+     * @param string $param
+     * 
+     * @return string
+     */
     public function getParamInput(string $param)
     {
         $body = file_get_contents('php://input');
@@ -461,16 +472,28 @@ class Request implements RequestInterface
         return $json->$param;
     }
 
+    /**
+     * @param string $name
+     * 
+     * @return bool
+     */
     public function __isset($name)
     {
         return array_key_exists($name, $this->data) === true;
     }
 
+    /**
+     * @param string $name
+     * @param null $value
+     */
     public function __set($name, $value = null)
     {
         $this->data[$name] = $value;
     }
 
+    /**
+     * @param string $name
+     */
     public function __get($name)
     {
         return $this->data[$name] ?? null;

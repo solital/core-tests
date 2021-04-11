@@ -13,16 +13,16 @@ class Response implements ResponseInterface
     /**
      * Reason phrase
      *
-     * @var string
+     * @var mixed
      */
-    private string $statusCode;
+    private $statusCode;
 
     /**
      * Reason phrase
      *
      * @var string
      */
-    private string $header;
+    private $header;
 
     /**
      * Reason phrase
@@ -34,9 +34,9 @@ class Response implements ResponseInterface
     /**
      * Reason phrase
      *
-     * @var string
+     * @var Request
      */
-    protected string $request;
+    protected $request;
 
     /**
      * Status codes and reason phrases
@@ -115,6 +115,12 @@ class Response implements ResponseInterface
         599 => 'Network Connect Timeout Error',
     ];
 
+    /**
+     * @param Request $request
+     * @param null $body
+     * @param int $code
+     * @param array $headers
+     */
     public function __construct(Request $request, $body = null, $code = 200, array $headers = [])
     {
         #$headers = \getallheaders();
@@ -159,48 +165,12 @@ class Response implements ResponseInterface
         exit(0);
     }
 
+    /**
+     * @return void
+     */
     public function refresh(): void
     {
         $this->redirect($this->request->getUrl()->getOriginalUrl());
-    }
-
-    public function cache(string $eTag, int $lastModifiedTime = 2592000): self
-    {
-
-        $this->headers([
-            'Cache-Control: public',
-            sprintf('Last-Modified: %s GMT', gmdate('D, d M Y H:i:s', $lastModifiedTime)),
-            sprintf('Etag: %s', $eTag),
-        ]);
-
-        $httpModified = $this->request->getHeader('http-if-modified-since');
-        $httpIfNoneMatch = $this->request->getHeader('http-if-none-match');
-
-        if (($httpIfNoneMatch !== null && $httpIfNoneMatch === $eTag) || ($httpModified !== null && strtotime($httpModified) === $lastModifiedTime)) {
-
-            $this->header('HTTP/1.1 304 Not Modified');
-            exit(0);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Json encode
-     * @param array|\JsonSerializable $value
-     * @param int $options JSON options Bitmask consisting of JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP, JSON_HEX_APOS, JSON_NUMERIC_CHECK, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES, JSON_FORCE_OBJECT, JSON_PRESERVE_ZERO_FRACTION, JSON_UNESCAPED_UNICODE, JSON_PARTIAL_OUTPUT_ON_ERROR.
-     * @param int $dept JSON debt.
-     * @throws InvalidArgumentHttpException
-     */
-    public function json($value, ?int $options = null, int $dept = 512): void
-    {
-        if (($value instanceof \JsonSerializable) === false && \is_array($value) === false) {
-            InvalidArgumentHttpException::invalidExceptionMessage(417, 'Invalid type. Must be of type array or object implementing the \JsonSerializable interface.');
-        }
-
-        $this->header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($value, $options, $dept);
-        exit(0);
     }
 
     /**

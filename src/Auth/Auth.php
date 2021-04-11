@@ -228,14 +228,16 @@ class Auth extends Reset
     /**
      * @param string $name_sender
      * @param string $name_recipient
+     * @param string $subject
      * @param string $message
      * 
      * @return Auth
      */
-    public function fields(string $name_sender, string $name_recipient, string $message = ""): Auth
+    public function fields(string $name_sender, string $name_recipient, string $subject, string $message = ""): Auth
     {
         $this->name_sender = $name_sender;
         $this->name_recipient = $name_recipient;
+        $this->subject = $subject;
         $this->message_email = $message;
 
         return $this;

@@ -30,6 +30,11 @@ abstract class Reset
     /**
      * @var string
      */
+    protected string $link;
+
+    /**
+     * @var string
+     */
     protected string $time_hash = "+1 hour";
 
     /**
@@ -96,7 +101,7 @@ abstract class Reset
         $res = ORM::query($sql);
 
         if (!$res == false) {
-            $res = $this->updatePass($email, $uri, $this->time_hash);
+            $res = $this->sendHash($email, $uri, $this->time_hash);
 
             if ($res == true) {
                 return true;
@@ -143,12 +148,30 @@ abstract class Reset
 
     /**
      * @param string $email
+     * @param string $time
+     * 
+     * @return null|string
+     */
+    private function generateDefaultLink(string $uri, string $email, string $time): ?string
+    {
+        if ($this->link = "") {
+            $hash = Hash::encrypt($email, $time);
+            $this->link = $uri . $hash;
+
+            return $this->link;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $email
      * @param string $uri
      * @param string $time
      * 
      * @return bool
      */
-    private function updatePass(string $email, string $uri, string $time): bool
+    private function sendHash(string $email, string $uri, string $time): bool
     {
         $valid = Valid::email($email);
 
@@ -156,15 +179,15 @@ abstract class Reset
             return false;
         }
 
-        $hash = Hash::encrypt($email, $time);
+        $this->generateDefaultLink($uri, $email, $time);
 
         if ($this->message_email == '') {
             $this->message_email = "
-            <h1>Forgot Password</h1>
+            <h1>" . $this->subject . "</h1>
 
             <p>Hello " . $this->name_recipient . ", click the link below to change your password</p>
 
-            <p><a href='" . $uri . $hash . "' target='_blank' style='padding: 10px; background-color: red; 
+            <p><a href='" . $this->link . "' target='_blank' style='padding: 10px; background-color: red; 
             border-radius: 5px; color: #fff; text-decoration: none;'>Change Password</a></p>
             
             <small>Sent from the solital framework</small>";

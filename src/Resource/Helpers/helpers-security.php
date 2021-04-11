@@ -1,6 +1,7 @@
 <?php
 
 use Solital\Core\Course\Course as Course;
+use Solital\Core\Security\Hash;
 
 /**
  * Get current csrf-token
@@ -48,4 +49,18 @@ function pass_verify($value, string $hash): bool
     } else {
         return false;
     }
+}
+
+/**
+ * @param string $email
+ * @param string $time
+ * 
+ * @return string
+ */
+function generateLink(string $uri, string $email, string $time): string
+{
+    $hash = Hash::encrypt($email, $time);
+    $link = $uri . $hash;
+
+    return $link;
 }
