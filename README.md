@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>Official core of Solital framework</strong>
+  <strong>NOTE: This repository is only for testing Core do Solital, so it should not be used in a real project. Please use the official Core repository</strong>
 </p>
 
 ## About
