@@ -20,20 +20,11 @@ abstract class WolfCache
     protected static $time;
 
     /**
-     * @var bool
-     */
-    protected static bool $debug;
-
-    /**
      * @return string
      */
     protected static function getFolderCache()
     {
-        if (self::$debug == true) {
-            self::$cache_dir = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
-        } else {
-            self::$cache_dir = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
-        }
+        self::$cache_dir = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR . "wolf" . DIRECTORY_SEPARATOR;
 
         if (!is_dir(self::$cache_dir)) {
             \mkdir(self::$cache_dir);

@@ -5,7 +5,7 @@
     verbose="true"
     stopOnFailure="false">
     <testsuites>
-        <testsuite name="Primeiro exemplo">
+        <testsuite name="Solital Core Tests">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

@@ -1,6 +1,6 @@
 # Released Notes
 
-## v2.0.0-rc3 - (2021-04-XX)
+## v2.0.0-rc4 - (2021-04-XX)
 
 ### Added
 
@@ -14,7 +14,8 @@
 - Added JSON return in the `input` method
 - Added database dump support 
 - Added `Controller.php`
-- Added support and tests to PHPUnit 
+- Added support and tests to PHPUnit
+- Added `katrinaVersion` command 
 
 ### Fixed
 

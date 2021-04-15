@@ -33,25 +33,9 @@ class Wolf extends WolfCache
      */
     private static function getDirView(): string
     {
-        if (self::$debug == true) {
-            self::$dir_view = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR;
-        } else {
-            self::$dir_view = SITE_ROOT . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR;
-        }
+        self::$dir_view = SITE_ROOT . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR;
 
         return self::$dir_view;
-    }
-
-    /**
-     * @param bool $debug
-     * 
-     * @return static
-     */
-    public static function debug(bool $debug = true)
-    {
-        self::$debug = $debug;
-
-        return new static();
     }
 
     /**

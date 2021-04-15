@@ -42,11 +42,11 @@ trait CustomCommandTrait
 
             $msg = $this->color->stringColor("Command successfully executed!", "green", null, true);
             print_r($msg);
+
+            die;
         } else {
             return null;
         }
-
-        die;
     }
 
     /**
