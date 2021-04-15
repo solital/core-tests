@@ -37,6 +37,11 @@ class ForgotController extends Controller
     {
         $email = input()->post('email')->getValue();
 
+        if (request_repeat('email.forgot', $email)) {
+            $this->message->new('forgot', 'You have tried this email before!');
+            response()->redirect(url('forgot'));
+        }
+
         $res = Auth::forgot('tb_auth')
             ->columns('username')
             ->values($email, url('change'))

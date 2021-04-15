@@ -125,22 +125,20 @@ class SystemCommands extends Commands
         $data = [
             [
                 'solitalVersion' => Version::SOLITAL_VERSION,
-                'vinciVersion' => Version::VINCI_VERSION,
                 'katrinaVersion' => Version::katrinaVersion(),
-                'phpVersion' => PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION
+                'phpVersion' => Version::phpVersion()
             ]
         ];
 
-        $link = $this->color->stringColor("https://solital.github.io/docs-v1/", "cyan", null);
+        $link = $this->color->stringColor("https://solitalframework.com/docs/", "cyan", null);
         $thanks = "Thank you for using Solital, you can see the full documentation at $link\n";
 
-        print_r($this->color->stringColor("\nSolital framework\n", "cyan", null, true));
+        print_r($this->color->stringColor("\nSolital framework - Fast, easy and practical\n", "yellow", null, true));
         print_r($this->color->stringColor($thanks, "white", null, true));
 
         $this->table->setTableColor('cyan');
         $this->table->setHeaderColor('cyan');
         $this->table->addField('Solital Version', 'solitalVersion', false, 'white');
-        $this->table->addField('Vinci Console',  'vinciVersion', false, 'white');
         $this->table->addField('Katrina Version',  'katrinaVersion', false, 'white');
         $this->table->addField('PHP Version',  'phpVersion', false, 'white');
         $this->table->injectData($data);
@@ -154,31 +152,24 @@ class SystemCommands extends Commands
      */
     public function show(): bool
     {
-        $usage = $this->color->stringColor("Usage:\n", "yellow", null, true);
-        $create_component = $this->color->stringColor("  php vinci [component]:[file_name]\n", "green", null, true);
-        $execute_cmd = $this->color->stringColor("  php vinci [command]\n", "green", null, true);
+        print_r($this->color->stringColor("Below is a list of all vinci commands\n\n", "white", null, true));
+        print_r($this->color->stringColor("Usage:\n", "yellow", null, true));
 
-        print_r("Below is a list of all vinci commands\n\n");
-        print_r($usage);
+        print_r($this->color->stringColor("To create a component:\n", "white", null, true));
+        print_r($this->color->stringColor("  php vinci [component]:[file_name]\n", "green", null, true));
 
-        print_r("To create a component:\n");
-        print_r($create_component);
+        print_r($this->color->stringColor("To run a command:\n", "white", null, true));
+        print_r($this->color->stringColor("  php vinci [command]\n", "green", null, true));
 
-        print_r("To run a command:\n");
-        print_r($execute_cmd);
-
-        $components_title = $this->color->stringColor("Components:\n", "yellow", null, true);
-        print_r($components_title);
+        print_r($this->color->stringColor("Components:\n", "yellow", null, true));
 
         $this->defaultRegisteredComponents();
 
-        $commands_title = $this->color->stringColor("Commands:\n", "yellow", null, true);
-        print_r($commands_title);
+        print_r($this->color->stringColor("Commands:\n", "yellow", null, true));
 
         $this->defaultRegisteredCommands();
 
-        $custom_commands_title = $this->color->stringColor("Custom Commands:\n", "yellow", null, true);
-        print_r($custom_commands_title);
+        print_r($this->color->stringColor("Custom Commands:\n", "yellow", null, true));
 
         $this->defaultRegisteredCustomCommands();
 
@@ -187,12 +178,19 @@ class SystemCommands extends Commands
 
     public function routes()
     {
-        if (!isset($_SERVER["REQUEST_METHOD"]) && !isset($_SERVER["REQUEST_URI"])) {
-            $_SERVER["REQUEST_METHOD"] = "GET";
-            $_SERVER["REQUEST_URI"] = "/";
-        }
+        if ($this->debug != true) {
+            if (!isset($_SERVER["REQUEST_METHOD"]) && !isset($_SERVER["REQUEST_URI"])) {
+                $_SERVER["REQUEST_METHOD"] = "GET";
+                $_SERVER["REQUEST_URI"] = "/";
+            }
+    
+            SystemCommandsCourse::start(true);
+        } else {
+            $msg = $this->color->stringColor("Debug enabled! You cannot run this command.\n", "white", null, true);
+            print_r($msg);
 
-        SystemCommandsCourse::start(true);
+            return true;
+        }
     }
 
     /**
@@ -343,11 +341,16 @@ class SystemCommands extends Commands
      */
     public function defaultRegisteredCustomCommands()
     {
-        $commands = (new CustomConsole())->execute();
-        $msg = $this->color->stringColor("The custom commands below are listed along with the methods that will be executed. \n", "white", null, true);
-        print_r($msg);
+        if ($this->debug != true) {
+            $commands = (new CustomConsole())->execute();
+            $msg = $this->color->stringColor("The custom commands below are listed along with the methods that will be executed.\n", "white", null, true);
+            print_r($msg);
 
-        $this->consoleTable($commands);
+            $this->consoleTable($commands);
+        } else {
+            $msg = $this->color->stringColor("Debug enabled! You cannot run this command.\n", "white", null, true);
+            print_r($msg);
+        }
     }
 
     /**
@@ -360,7 +363,10 @@ class SystemCommands extends Commands
         $mask = "%30.40s %10.120s\n";
 
         foreach ($values as $k_comp => $comp) {
-            printf($mask, "\033[32m" . $k_comp . "\033[0m", " - " . $comp . "\n");
+            $k_comp = $this->color->stringColor("$k_comp", "green", null);
+            $comp = $this->color->stringColor("$comp", "white", null);
+
+            printf($mask, $k_comp, " - " . $comp . "\n");
         }
 
         return $this;

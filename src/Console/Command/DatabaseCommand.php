@@ -34,19 +34,7 @@ class DatabaseCommand
     {
         $dir = SITE_ROOT_VINCI . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "dump" . DIRECTORY_SEPARATOR;
 
-        $res = (new Dump())->dumpDatabase($dir);
-
-        /* if ($res == true) {
-            $msg = (new Colors())->stringColor("Dump done successfully!", "green", null, true);
-            print_r($msg);
-
-            die;
-        } else {
-            $msg = (new Colors())->stringColor("Error dumping the database! ", "yellow", "red", true);
-            print_r($msg);
-
-            die;
-        } */
+        (new Dump())->dumpDatabase($dir);
 
         return $this;
     }

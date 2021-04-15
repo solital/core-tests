@@ -1,6 +1,6 @@
 # Released Notes
 
-## v2.0.0-rc - (2021-04-XX)
+## v2.0.0-rc3 - (2021-04-XX)
 
 ### Added
 
@@ -14,11 +14,14 @@
 - Added JSON return in the `input` method
 - Added database dump support 
 - Added `Controller.php`
+- Added support and tests to PHPUnit 
 
 ### Fixed
 
 - Fixed several bugs during the alpha and beta versions
 - Fixed typing on attributes
+- Fixed bugs in Console
+- Fixed comments and typing in the Container 
 
 ### Removed
 
@@ -33,6 +36,6 @@
 - Changed Database folder for Core
 - Changed `AuthController` to `Auth`
 - Changed Vinci Console in a scalable way
-- Changed Hash class method
+- Changed `Hash` class method
 - Changed Wolf cache
 - Changed Login and Forgot structure

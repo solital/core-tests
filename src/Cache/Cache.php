@@ -10,7 +10,7 @@ class Cache implements CacheInterface
     /**
      * @var string
      */
-    private $value;
+    private string $value;
 
     /**
      * Return a directory of the cache

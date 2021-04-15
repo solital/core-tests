@@ -13,7 +13,12 @@ class Wolf extends WolfCache
     /**
      * @var string
      */
-    private static $main_url;
+    private static string $main_url;
+
+    /**
+     * @var string
+     */
+    private static string $dir_view;
 
     /**
      * @return string
@@ -21,6 +26,32 @@ class Wolf extends WolfCache
     private static function getInstance(): string
     {
         return self::$main_url = '//' . $_SERVER['HTTP_HOST'] . "/";
+    }
+
+    /**
+     * @return string
+     */
+    private static function getDirView(): string
+    {
+        if (self::$debug == true) {
+            self::$dir_view = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . "tests" . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR . "view" . DIRECTORY_SEPARATOR;
+        } else {
+            self::$dir_view = SITE_ROOT . DIRECTORY_SEPARATOR . "resources" . DIRECTORY_SEPARATOR;
+        }
+
+        return self::$dir_view;
+    }
+
+    /**
+     * @param bool $debug
+     * 
+     * @return static
+     */
+    public static function debug(bool $debug = true)
+    {
+        self::$debug = $debug;
+
+        return new static();
     }
 
     /**
@@ -33,13 +64,14 @@ class Wolf extends WolfCache
     public static function loadView(string $view, array $data = null, string $ext = "php")
     {
         $view = str_replace(".", DIRECTORY_SEPARATOR, $view);
-        $file = SITE_ROOT . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
+
+        $file = self::getDirView() . "view" . DIRECTORY_SEPARATOR . $view . '.' . $ext;
 
         /** Create or browse the cached file  */
         self::$file_cache = self::getFolderCache() . $view . "-" . date('Ymd') . "-" . self::$time . ".cache.php";
 
         if (strpos($view, "/")) {
-            $file = SITE_ROOT . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . $view . '.' . $ext;
+            $file = self::getDirView() . $view . '.' . $ext;
 
             $viewForCache = str_replace("/", ".", $view);
             self::$file_cache = self::getFolderCache() . $viewForCache . "-" . date('Ymd') . "-" . self::$time . ".cache.php";

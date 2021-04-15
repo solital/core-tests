@@ -4,7 +4,6 @@ namespace Solital\Core\Console;
 
 use Solital\Core\Console\Style\Colors;
 use Solital\Core\Console\Command\Commands;
-use Solital\Core\Console\Command\CustomCommand;
 use Solital\Core\Console\Command\FileCommands;
 use Solital\Core\Console\Command\SystemCommands;
 
@@ -23,11 +22,6 @@ class Console
     /**
      * @var instance
      */
-    private $custom;
-
-    /**
-     * @var instance
-     */
     private $files;
 
     /**
@@ -42,7 +36,6 @@ class Console
     {
         $this->cmd = new Commands($debug);
         $this->cmd_system = new SystemCommands($debug);
-        $this->custom = new CustomCommand();
         $this->files = new FileCommands($debug);
         $this->color = new Colors();
     }

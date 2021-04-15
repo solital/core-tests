@@ -4,6 +4,7 @@ use Solital\Core\Resource\Session;
 
 /**
  * Remove all get param
+ * 
  * @return void
  */
 function remove_param(): void
@@ -63,6 +64,9 @@ function is_json($string): bool
 
 /**
  * Get atual url
+ * 
+ * @param string $uri
+ * 
  * @return string
  */
 function get_url(string $uri = null): string
@@ -78,50 +82,4 @@ function get_url(string $uri = null): string
     }
 
     return $url;
-}
-
-/**
- * @param string $key
- * @param int $limit = 5
- * @param int $seconds = 60
- * @return bool
- */
-function request_limit(string $key, int $limit = 5, int $seconds = 60) : bool
-{
-    if (Session::has($key) && $_SESSION[$key]->time >= time() && $_SESSION[$key]->requests < $limit) {
-        Session::new($key, [
-            'time' => time() + $seconds,
-            'requests' => $_SESSION[$key]->requests + 1
-        ]);
-
-        return false;
-    }
-
-    if (Session::has($key) && $_SESSION[$key]->time >= time() && $_SESSION[$key]->requests >= $limit) {
-        return true;
-    }
-
-    Session::new($key, [
-        'time' => time() + $seconds,
-        'requests' => 1
-    ]);
-
-    return false;
-}
-
-/**
- * request_repeat
- *
- * @param string $field
- * @param string $value
- * @return bool
- */
-function request_repeat(string $field, string $value): bool
-{
-    if (Session::has($field) && Session::show($field) == $value) {
-        return true;
-    }
-
-    Session::new($field, $value);
-    return false;
 }

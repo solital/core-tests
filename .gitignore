@@ -2,4 +2,4 @@ composer.lock
 vendor/
 tests/tmp/*
 /nbproject/
-tests/Files/*
+tests/files_test/*

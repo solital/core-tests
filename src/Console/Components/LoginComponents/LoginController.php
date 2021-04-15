@@ -37,6 +37,11 @@ class LoginController extends Controller
      */
     public function authPost(): void
     {
+        if (request_limit('email.login', 3, 10)) {
+            $this->message->new('login', 'You have already made 3 login attempts! Please wait 10 seconds and try again.');
+            response()->redirect(url('auth'));
+        }
+
         $res = Auth::login('tb_auth')
             ->columns('username', 'password')
             ->values('inputEmail', 'inputPassword')

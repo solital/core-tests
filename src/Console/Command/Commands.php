@@ -132,7 +132,7 @@ class Commands
         $this->checkExtDir();
 
         if (is_dir($this->dir)) {
-            $res = (new HandleFiles())->fileExists($this->dir . $this->resource);
+            $res = (new HandleFiles())->folder($this->dir)->fileExists($this->resource);
 
             if ($res == true) {
                 $msg = $this->color->stringColor("Error: there is a file with the same name", "yellow", "red", true);

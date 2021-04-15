@@ -8,7 +8,6 @@ use Solital\Core\Exceptions\ContainerNotFoundException;
 
 class Container implements ContainerInterface
 {
-
     /**
      * Our functions that are associated with a particular dependency.
      * */
@@ -18,6 +17,7 @@ class Container implements ContainerInterface
      * Our arguments that will be passed to our functions when they are first called.
      */
     private array $arguments = [];
+
     /**
      * Our loaded dependencies that are retrieved through get()
      */
@@ -28,16 +28,16 @@ class Container implements ContainerInterface
      * Subsequent calls to the identifier return the first returned value of
      * the function.
      *
-     * @param string $id Identifier of the entry to look for.
-     * @param function $function Function whose return value will be attached to
-     *                           the identifier on subsequent get() calls.
-     * @param mixed $arguments Argument or arguments that are passed to the
-     *                         function the first time it is called. For multiple
-     *                         arguments, pass in an array.
+     * @param string $id        Identifier of the entry to look for.
+     * @param Closure $function Function whose return value will be attached to
+     *                          the identifier on subsequent get() calls.
+     * @param mixed $arguments  Argument or arguments that are passed to the
+     *                          function the first time it is called. For multiple
+     *                          arguments, pass in an array.
      *
      * @return void
      */
-    public function set($id, $function, $arguments = false)
+    public function set(string $id, $function, $arguments = false)
     {
         $this->functions[$id] = $function;
         $this->arguments[$id] = $arguments;
@@ -67,6 +67,7 @@ class Container implements ContainerInterface
                 throw new ContainerException($id, $exception);
             }
         }
+
         // If it's loaded or we just loaded it, cool. Return it!
         return $this->loaded_dependencies[$id];
     }
