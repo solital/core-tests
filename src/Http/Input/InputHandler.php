@@ -86,6 +86,7 @@ class InputHandler
                 try {
                     $list[$key] = InputFile::createFromArray($values + $value);
                 } catch (InvalidArgumentException $e) {
+                    throw new InvalidArgumentException($e->getMessage());
                 }
                 continue;
             }
@@ -141,6 +142,7 @@ class InputHandler
                     $output[$key] = $file;
                     continue;
                 } catch (InvalidArgumentException $e) {
+                    throw new InvalidArgumentException($e->getMessage());
                 }
             }
 
@@ -295,16 +297,17 @@ class InputHandler
         $output = $_GET;
 
         if ($this->request->getMethod() === 'post') {
+            if (filter_input_array(INPUT_POST) != null) {
+                // Append POST data
+                $output += filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+                $contents = file_get_contents('php://input');
 
-            // Append POST data
-            $output += filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $contents = file_get_contents('php://input');
-
-            // Append any PHP-input json
-            if (strpos(trim($contents), '{') === 0) {
-                $post = json_decode($contents, true);
-                if ($post !== false) {
-                    $output += $post;
+                // Append any PHP-input json
+                if (strpos(trim($contents), '{') === 0) {
+                    $post = json_decode($contents, true);
+                    if ($post !== false) {
+                        $output += $post;
+                    }
                 }
             }
         }

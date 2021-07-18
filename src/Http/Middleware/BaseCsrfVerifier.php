@@ -74,7 +74,7 @@ class BaseCsrfVerifier implements MiddlewareInterface
         if ($this->skip($request) === false && \in_array($request->getMethod(), ['post', 'put', 'delete'], true) === true) {
 
             if ($this->tokenProvider->validate() === false) {
-                TokenMismatchException::alertMessage(404, "Invalid CSRF-token");
+                throw new TokenMismatchException("Invalid CSRF-token", 404);
             }
         }
     }

@@ -12,12 +12,19 @@ class Hash
     private static string $decoded;
 
     /**
+     * @var string
+     */
+    private static string $sodium_key;
+
+    /**
      * @return void
+     * 
+     * @throws NotFoundException
      */
     public static function checkSecrets(): void
     {
         if ($_ENV['FIRST_SECRET'] == "" || $_ENV['SECOND_SECRET'] == "") {
-            NotFoundException::notFound(404, "Empty OPENSSL variables", "Check that the FIRST_SECRET and SECOND_SECRET variables have a value defined in the '.env' file", "Hash");
+            throw new \Exception("Empty OPENSSL variables", 404);
         }
     }
 
@@ -95,6 +102,76 @@ class Hash
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function getSodiumKey(): string
+    {
+        self::checkSodium();
+
+        self::$sodium_key = random_bytes(SODIUM_CRYPTO_SECRETBOX_KEYBYTES);
+        return self::$sodium_key;
+    }
+
+    /**
+     * @param string $ciphertext
+     * @param string $key
+     * 
+     * @return string
+     */
+    public static function sodiumCrypt(string $ciphertext, string $key): string
+    {
+        self::checkSodium();
+
+        $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
+        $ciphertext = sodium_crypto_secretbox($ciphertext, $nonce, $key);
+        $encoded = base64_encode($nonce . $ciphertext);
+
+        return $encoded;
+    }
+
+    /**
+     * @param string $encoded
+     * @param string $key
+     * 
+     * @return string|null
+     */
+    public static function sodiumDecrypt(string $encoded, string $key): ?string
+    {
+        self::checkSodium();
+
+        $decoded = base64_decode($encoded);
+        $nonce = mb_substr($decoded, 0, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, '8bit');
+        $ciphertext = mb_substr($decoded, SODIUM_CRYPTO_SECRETBOX_NONCEBYTES, null, '8bit');
+        $plaintext = sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
+
+        if ($plaintext != "") {
+            return $plaintext;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @return bool
+     * 
+     * @throws NotFoundException
+     */
+    public static function checkSodium(): bool
+    {
+        $sodium_constants = [
+            SODIUM_LIBRARY_MAJOR_VERSION,
+            SODIUM_LIBRARY_MINOR_VERSION,
+            SODIUM_LIBRARY_VERSION
+        ];
+
+        if (is_array($sodium_constants)) {
+            return true;
+        } else {
+            throw new \Exception("libsodium not installed", 404);
         }
     }
 }

@@ -6,6 +6,7 @@ use PDO;
 use Katrina\Katrina;
 use Katrina\Connection\DB as DB;
 use Katrina\Exception\Exception;
+use ModernPHPException\ModernPHPException;
 use Solital\Core\Exceptions\NotFoundException;
 
 class ORM extends Katrina
@@ -41,6 +42,11 @@ class ORM extends Katrina
     private string $sqlite;
 
     /**
+     * @var ModernPHPException
+     */
+    private ModernPHPException $exception;
+
+    /**
      * @param string $table
      * @param string $primaryKey
      * @param array $columns
@@ -49,6 +55,8 @@ class ORM extends Katrina
      */
     public function __construct(string $table, string $primaryKey, array $columns)
     {
+        $this->exception = new ModernPHPException();
+
         $this->drive = $_ENV['DB_DRIVE'];
         $this->host = $_ENV['DB_HOST'];
         $this->name = $_ENV['DB_NAME'];
@@ -62,7 +70,7 @@ class ORM extends Katrina
             $this->name == "" ||
             $this->user == ""
         ) {
-            NotFoundException::notFound(404, "Database not configured", "It looks like you haven't set up the database connection variables in the '.env' file. Set them up and try again.", "Katrina");
+            $this->exception->errorHandler(500, "Database not configured", __FILE__, __LINE__);
         }
 
         if (!defined('DB_CONFIG')) {
@@ -97,7 +105,7 @@ class ORM extends Katrina
 
             return $res;
         } catch (\PDOException $e) {
-            Exception::alertMessage($e, "'queryDatabase()' error");
+            throw new \PDOException($e->getMessage());
         }
     }
 

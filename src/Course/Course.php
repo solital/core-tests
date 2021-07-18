@@ -8,6 +8,7 @@ use Solital\Core\Course\Router;
 use Solital\Core\Http\Response;
 use Solital\Core\Course\Route\RouteUrl;
 use Solital\Core\Course\Route\RouteGroup;
+use ModernPHPException\ModernPHPException;
 use Solital\Core\Course\Route\RouteResource;
 use Solital\Core\Course\Route\RouteInterface;
 use Solital\Core\Course\Route\RouteController;
@@ -58,6 +59,8 @@ class Course extends NotFoundHttpException
      */
     public static function start(bool $send_console = false): void
     {
+        (new ModernPHPException())->start();
+
         if (!defined('DB_CONFIG')) {
             define('DB_CONFIG', [
                 'DRIVE' => $_ENV['DB_DRIVE'],
@@ -536,7 +539,7 @@ class Course extends NotFoundHttpException
             $callback = $route->getCallback();
 
             if (empty($callback)) {
-                NotFoundHttpException::alertMessage(404, "Callback not found");
+                throw new \Exception("Callback not found", 404);
             }
 
             /* Only add default namespace on relative callbacks */

@@ -305,7 +305,7 @@ class Router
 
         if (isset($routeDuplicate)) {
             foreach ($routeDuplicate as $duplicate) {
-                NotFoundHttpException::alertMessage(404, "Duplicate '$duplicate' route");
+                throw new \Exception("Duplicate '$duplicate' route", 404);
             }
         }
 
@@ -464,7 +464,7 @@ class Router
         }
 
         if ($methodNotAllowed === true) {
-            return NotFoundHttpException::alertMessage(403, "Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", "This route was not defined with method " . strtoupper($this->request->getMethod()) . ", but with another method.");
+            throw new \Exception("Route '" . $this->request->getUri()->getPath() . "' or method '" . strtoupper($this->request->getMethod()) . "' not allowed", 403);
         }
 
         if (\count($this->request->getLoadedRoutes()) === 0) {
@@ -472,9 +472,9 @@ class Router
             $rewriteUrl = $this->request->getRewriteUrl();
 
             if ($rewriteUrl !== null) {
-                return NotFoundHttpException::alertMessage(404, "Route '" . $rewriteUrl . "' not found (rewrite from: '" . $this->request->getUri()->getPath() . "')");
+                throw new \Exception("Route '" . $rewriteUrl . "' not found (rewrite from: '" . $this->request->getUri()->getPath() . "')", 404);
             } else {
-                return NotFoundHttpException::alertMessage(404, "Route '" . $this->request->getUri()->getPath() . "' not found", "Check if the given route exists in the 'routers.php' file or another route file.");
+                throw new \Exception("Route '" . $this->request->getUri()->getPath() . "' not found", 404);
             }
         }
 
@@ -552,7 +552,7 @@ class Router
             $this->debug('Processing exception-handler "%s"', \get_class($handler));
 
             if (($handler instanceof ExceptionHandlerInterface) === false) {
-                NotFoundHttpException::alertMessage(500, "Exception handler must implement the ExceptionHandlerInterface interface.");
+                throw new \Exception("Exception handler must implement the ExceptionHandlerInterface interface.", 500);
             }
 
             try {

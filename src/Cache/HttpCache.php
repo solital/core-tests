@@ -4,7 +4,6 @@ namespace Solital\Core\Cache;
 
 use DateTime;
 use Solital\Core\Cache\Cache;
-use Solital\Core\Exceptions\HttpCacheException;
 
 class HttpCache extends Cache
 {
@@ -29,7 +28,7 @@ class HttpCache extends Cache
         $this->time = $max_age;
 
         if ($privacity != "public" && $privacity != "private") {
-            HttpCacheException::alertMessage(404, "'$privacity' is invalid. Use 'public' or 'private'");
+            throw new \Exception("'$privacity' is invalid. Use 'public' or 'private'", 404);
 
             return $this;
         }
@@ -63,8 +62,6 @@ class HttpCache extends Cache
         $date = new DateTime();
         $atual_time = $date->getTimestamp();
 
-        #var_dump($atual_time, $this->time);
-
         if (strtotime($this->time) < strtotime($atual_time)) {
             $this->code = 200;
         } else {
@@ -72,13 +69,6 @@ class HttpCache extends Cache
         }
 
         $date = gmdate("D, d M Y H:i:s", time() + $this->time) . " GMT";
-
-        /* $date = date("d M Y", strtotime($date));
-        $day = date("D", strtotime($date));
-        $hour = date("H:i:s", strtotime($hour)); */
-
-        #$code = (new HttpCode())->responseCode($this->code);
-        #header($code);
 
         http_response_code($this->code);
         header("Expires: " . $date);

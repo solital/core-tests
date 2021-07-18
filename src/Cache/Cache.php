@@ -3,7 +3,7 @@
 namespace Solital\Core\Cache;
 
 use Psr\SimpleCache\CacheInterface;
-use Solital\Core\Exceptions\InvalidArgumentHttpException;
+use Solital\Core\Exceptions\InvalidArgumentException;
 
 class Cache implements CacheInterface
 {
@@ -13,21 +13,30 @@ class Cache implements CacheInterface
     private string $value;
 
     /**
+     * @var array
+     */
+    private array $multiple_results = [];
+
+    /**
      * Return a directory of the cache
      */
-    public function __construct()
+    public function __construct($test = false)
     {
-        $this->value = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR;
+        if ($test == true) {
+            $this->value = "tests" . DIRECTORY_SEPARATOR . "files_test" . DIRECTORY_SEPARATOR;
+        } else {
+            $this->value = SITE_ROOT . DIRECTORY_SEPARATOR . "app" . DIRECTORY_SEPARATOR . "Storage" . DIRECTORY_SEPARATOR . "cache" . DIRECTORY_SEPARATOR;
+        }
     }
 
     /**
      * @param string $key A value of key
-     * @return array
+     * @return mixed
      */
     public function get($key, $default = null)
     {
         if (!is_string($key)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to string");
+            throw new InvalidArgumentException("The parameter informed must be equal to string", 500);
         }
 
         $file_in_cache = $this->value . $key . ".cache.php";
@@ -39,8 +48,7 @@ class Cache implements CacheInterface
             if ($decoded['expire_at'] < time() || $decoded['expire_at'] == null) {
                 $this->delete($key);
             } else {
-                print_r($decoded);
-                exit;
+                return $decoded;
             }
         }
     }
@@ -57,11 +65,11 @@ class Cache implements CacheInterface
         }
 
         if (!is_string($key)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter $key informed must be equal to string");
+            throw new InvalidArgumentException("The parameter $key informed must be equal to string", 500);
         }
 
         if (!$ttl instanceof \DateInterval && !is_int($ttl)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "$ttl is not a valid value. Enter a value equal to int or DateInterval");
+            throw new InvalidArgumentException("$ttl is not a valid value. Enter a value equal to int or DateInterval", 500);
         }
 
         $file_for_cache = $this->value . $key . ".cache.php";
@@ -95,7 +103,7 @@ class Cache implements CacheInterface
     public function delete($key): bool
     {
         if (!is_string($key)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to string");
+            throw new InvalidArgumentException("The parameter informed must be equal to string", 500);
         }
 
         $file_for_cache = $this->value . $key . ".cache.php";
@@ -139,7 +147,7 @@ class Cache implements CacheInterface
     public function has($key): bool
     {
         if (!is_string($key)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to string");
+            throw new InvalidArgumentException("The parameter informed must be equal to string", 500);
         }
 
         $file_in_cache = $this->value . $key . ".cache.php";
@@ -160,7 +168,7 @@ class Cache implements CacheInterface
     public function getMultiple($keys, $default = null): ?iterable
     {
         if (!is_array($keys)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to array");
+            throw new InvalidArgumentException("The parameter informed must be equal to array", 500);
         }
 
         foreach ($keys as $key => $value) {
@@ -173,16 +181,12 @@ class Cache implements CacheInterface
                 if ($decoded['expire_at'] < time() || $decoded['expire_at'] == null) {
                     $this->deleteMultiple($value);
                 } else {
-                    print_r($decoded);
+                    $this->multiple_results[] = $decoded;
                 }
             }
         }
 
-        if (file_exists($file_in_cache)) {
-            exit;
-        }
-
-        return null;
+        return $this->multiple_results;
     }
 
     /**
@@ -198,11 +202,11 @@ class Cache implements CacheInterface
         }
 
         if (!is_array($values)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to array");
+            throw new InvalidArgumentException("The parameter informed must be equal to array", 500);
         }
 
         if (!$ttl instanceof \DateInterval && !is_int($ttl)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "$ttl is not a valid value. Enter a value equal to int or DateInterval");
+            throw new InvalidArgumentException("$ttl is not a valid value. Enter a value equal to int or DateInterval", 500);
         }
 
         foreach ($values as $key => $value) {
@@ -239,7 +243,7 @@ class Cache implements CacheInterface
     public function deleteMultiple($keys)
     {
         if (!is_array($keys) && !is_string($keys)) {
-            InvalidArgumentHttpException::invalidExceptionMessage(500, "The parameter informed must be equal to array");
+            throw new InvalidArgumentException("The parameter informed must be equal to array", 500);
         }
 
         if (is_array($keys)) {

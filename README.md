@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <strong>NOTE: This repository is only for testing Core do Solital, so it should not be used in a real project. Please use the official Core repository</strong>
+  <strong>Official core of Solital framework</strong>
 </p>
 
 ## About
@@ -18,12 +18,12 @@ Solital is a complete PHP framework with everything you need to create high valu
 To use the full version of the Solital framework, please use the command below.
 
 ```
-composer create-project solital/solital [solital_project_folder]
+composer create-project solital/solital project
 ```
 
 ## Documentation
 
-You can access the complete documentation at the following link: [https://solital.github.io/docs-v1/](https://solital.github.io/docs-v1/)
+You can access the complete documentation at the following link: [https://solitalframework.com/](https://solitalframework.com/)
 
 ## License
 
