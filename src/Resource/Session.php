@@ -42,8 +42,10 @@ class Session
 
     /**
      * @param string $index
+     * 
+     * @return null|string
      */
-    public static function show(string $index, string $key = null)
+    public static function show(string $index, string $key = null): ?string
     {
         if ($key != null) {
             if (isset($_SESSION[$index][$key])) {

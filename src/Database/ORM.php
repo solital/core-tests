@@ -5,9 +5,7 @@ namespace Solital\Core\Database;
 use PDO;
 use Katrina\Katrina;
 use Katrina\Connection\DB as DB;
-use Katrina\Exception\Exception;
 use ModernPHPException\ModernPHPException;
-use Solital\Core\Exceptions\NotFoundException;
 
 class ORM extends Katrina
 {
