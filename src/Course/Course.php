@@ -15,7 +15,6 @@ use Solital\Core\Course\Route\RouteController;
 use Solital\Core\Course\Route\RoutePartialGroup;
 use Solital\Core\Course\Route\GroupRouteInterface;
 use Solital\Core\Exceptions\MalformedUrlException;
-use Solital\Core\Exceptions\NotFoundHttpException;
 use Solital\Core\Http\Middleware\BaseCsrfVerifier;
 use Solital\Core\Course\RouterBootManagerInterface;
 use Solital\Core\Exceptions\InvalidArgumentException;
@@ -23,7 +22,7 @@ use Solital\Core\Course\Handlers\EventHandlerInterface;
 use Solital\Core\Course\Route\PartialGroupRouteInterface;
 use Solital\Core\Course\Handlers\CallbackExceptionHandler;
 
-class Course extends NotFoundHttpException
+class Course
 {
     /**
      * Default namespace added to all routes
